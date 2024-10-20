@@ -1,31 +1,33 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 @font-face {
-  font-family: 'OjahDisplay';
-  src: url('/fonts/OjahDisplay-Black.otf') format('woff2'),
-    url('/fonts/OjahDisplay-Black.otf') format('woff');
+  font-family: "OjahDisplay";
+  src: url("/fonts/OjahDisplay-Black.otf") format("woff2"),
+    url("/fonts/OjahDisplay-Black.otf") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'OjahDisplayBold';
-  src: url('/fonts/OjahDisplay-Bold.otf') format('woff2'),
-    url('/fonts/OjahDisplay-Bold.otf') format('woff');
+  font-family: "OjahDisplayBold";
+  src: url("/fonts/OjahDisplay-Bold.otf") format("woff2"),
+    url("/fonts/OjahDisplay-Bold.otf") format("woff");
   font-weight: bolder;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'OjahDisplaySemiBold';
-  src: url('/fonts/OjahDisplay-SemiBold.otf') format('woff2'),
-    url('/fonts/OjahDisplay-SemiBold.otf') format('woff');
+  font-family: "OjahDisplaySemiBold";
+  src: url("/fonts/OjahDisplay-SemiBold.otf") format("woff2"),
+    url("/fonts/OjahDisplay-SemiBold.otf") format("woff");
   font-weight: bold;
   font-style: normal;
 }
 
 * {
-  font-family: 'OjahDisplay', sans-serif;
+  font-family: "Inter", sans-serif;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
