@@ -1,13 +1,31 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'OjahDisplay';
+  src: url('/fonts/OjahDisplay-Black.otf') format('woff2'),
+    url('/fonts/OjahDisplay-Black.otf') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@font-face {
+  font-family: 'OjahDisplayBold';
+  src: url('/fonts/OjahDisplay-Bold.otf') format('woff2'),
+    url('/fonts/OjahDisplay-Bold.otf') format('woff');
+  font-weight: bolder;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OjahDisplaySemiBold';
+  src: url('/fonts/OjahDisplay-SemiBold.otf') format('woff2'),
+    url('/fonts/OjahDisplay-SemiBold.otf') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+* {
+  font-family: 'OjahDisplay', sans-serif;
 }
