@@ -9,24 +9,32 @@ import {
 import { login } from "@/store/user";
 import { showNotification } from "@/utils/showNotification";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const LoginCard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    setLoading(true);
-    console.log("here");
     e.preventDefault();
+
+    setLoading(true);
+
     try {
       dispatch(login({ email, password }));
-    } catch (error: any) {
-      console.log(error);
-      showNotification("error", "top-right", undefined, {
-        message: error.message || "Something went wrong",
+      showNotification("success", "top-right", undefined, {
+        message: "Login Successful",
       });
+      navigate(0);
+    } catch (error) {
+      if (error instanceof Error)
+        showNotification("error", "top-right", undefined, {
+          message: error?.message ?? "Something went wrong",
+        });
+      console.log(error);
     }
     setLoading(false);
   };

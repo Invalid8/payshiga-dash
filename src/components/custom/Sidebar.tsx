@@ -1,22 +1,27 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { cn } from "@/utils/common";
-import { isAuth } from "@/store/user";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { openBusForm, setActiveBusiness, setSwitching } from "@/store/business";
 
 const Sidebar = () => {
   const [isProfilesOpen, setIsProfilesOpen] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<number>(0);
 
   const [hide, setHide] = useState<boolean>(true);
+  const dispatch = useDispatch()
 
-  const auth = isAuth();
+  const isAuth = useSelector((state: RootState) => state.user.user);
+  const { businesses, activeBusiness } = useSelector((state: RootState) => state.business);
 
   const location = useLocation();
   const pathname = location.pathname;
 
+
   useEffect(() => {
-    setHide(!auth || auth?.businesses.length === 0);
-  }, [auth]);
+    setHide(!isAuth || businesses.length === 0);
+  }, [businesses, isAuth]);
 
   return (
     <div
@@ -54,10 +59,10 @@ const Sidebar = () => {
               </span>
               <span className="business-info text-start grid gris-rows-2">
                 <span className="business-name capitalize truncate text-[16px] font-medium">
-                  Dummy {selectedId} technician xx
+                  {activeBusiness?.name}
                 </span>
                 <span className="business-id truncate text-xs text-subtext">
-                  Business ID: 46357684
+                  Business ID: {activeBusiness?.id}
                 </span>
               </span>
               <span>
@@ -84,14 +89,14 @@ const Sidebar = () => {
               className={cn(
                 "p-b",
                 isProfilesOpen &&
-                  "h-full max-h-[180px] overflow-y-auto p-3 border-t border-gray-50 animate-dropdown",
+                "h-full max-h-[180px] overflow-y-auto p-3 border-t border-gray-50 animate-dropdown",
                 !isProfilesOpen &&
-                  "h-0 overflow-hidden transition-[height] dropdown-leave"
+                "h-0 overflow-hidden transition-[height] dropdown-leave"
               )}
             >
               <ul className="grid gap-3">
                 <li className="cols-span-1">
-                  <button className="p-h grid grid-cols-[42px_142px] items-center p-1.5 hover:bg-gray-50 rounded-lg">
+                  <button className="p-h grid grid-cols-[42px_142px] items-center p-1.5 hover:bg-gray-50 rounded-lg" onClick={() => dispatch(openBusForm())}>
                     <span className="business-icon text-start rounded-lg size-[42px] min-w-[43px] overflow-hidden bg-gray-100 grid place-content-center">
                       <svg
                         width="22"
@@ -113,8 +118,8 @@ const Sidebar = () => {
                     </span>
                   </button>
                 </li>
-                {auth?.businesses &&
-                  auth?.businesses.map(
+                {businesses &&
+                  businesses.map(
                     (business, index) =>
                       index != selectedId && (
                         <li key={index}>
@@ -122,11 +127,16 @@ const Sidebar = () => {
                             className={cn(
                               "p-h grid grid-cols-[42px_142px] gap-2 items-center rounded-lg hover:bg-gray-50 p-1.5",
                               index == selectedId &&
-                                "bg-primary text-white p-1.5"
+                              "bg-primary text-white p-1.5"
                             )}
                             onClick={() => {
                               setSelectedId(index);
                               setIsProfilesOpen(false);
+                              setSwitching(true)
+                              setTimeout(() => {
+                                dispatch(setActiveBusiness({ id: business.id, userId: isAuth?.id ?? "" }))
+                              }, 5000)
+                              setSwitching(false)
                             }}
                           >
                             <span className="business-icon rounded-lg size-[42px] min-w-[43px] overflow-hidden bg-gray-200">
@@ -138,10 +148,10 @@ const Sidebar = () => {
                             </span>
                             <span className="business-info grid text-start">
                               <span className="business-name capitalize text-[14px] font-medium truncate">
-                                {business.name} {index}
+                                {business.name}
                               </span>
                               <span className="business-id text-[11px] text-subtext truncate">
-                                Business ID: 46357684
+                                Business ID: {business.id}
                               </span>
                             </span>
                           </button>
@@ -265,9 +275,9 @@ const Sidebar = () => {
                   className={cn(
                     "text-[16px] capitalize hover:text-secondary",
                     pathname.startsWith("/dashboard/settings") &&
-                      "text-secondary",
+                    "text-secondary",
                     !pathname.startsWith("/dashboard/settings") &&
-                      "text-subtext"
+                    "text-subtext"
                   )}
                 >
                   Settings
@@ -308,7 +318,7 @@ const Sidebar = () => {
                   className={cn(
                     "text-[16px] capitalize hover:text-secondary",
                     pathname.startsWith("/dashboard/contact") &&
-                      "text-secondary",
+                    "text-secondary",
                     !pathname.startsWith("/dashboard/contact") && "text-subtext"
                   )}
                 >

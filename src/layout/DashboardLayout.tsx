@@ -3,30 +3,53 @@ import Sidebar from "@/components/custom/Sidebar";
 import Header from "@/components/custom/Header";
 import AddBusinessDrawer from "@/components/custom/business/add-business";
 import { useEffect, useState } from "react";
-import { isAuth } from "@/store/user";
 import LoginCard from "@/components/custom/auth/login";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { Avatar, Typography } from "@material-tailwind/react";
+import { getBusinesses } from "@/store/business"
 
 const DashboardLayout = () => {
-  const [isDrawOpen, setDrawOpen] = useState<boolean>(false);
   const [loginOpen, setLoginOpen] = useState<boolean>(false);
-  const auth = isAuth();
+  const dispatch = useDispatch();
+
+  const isAuth = useSelector((state: RootState) => state.user.user);
+  const switching = useSelector((state: RootState) => state.business.switching);
 
   useEffect(() => {
-    if (!auth) {
-      // prompt login
-      setLoginOpen(true);
-    } else {
-      setDrawOpen(auth.businesses.length === 0);
+    function loadData() {
+      if (!isAuth) {
+        setLoginOpen(true);
+      } else {
+        dispatch(getBusinesses({ userId: isAuth.id }))
+      }
     }
-  }, [auth]);
+
+    loadData()
+
+    console.log(switching, console.log(switching))
+  }, [dispatch, isAuth, switching]);
 
   return (
     <div className="flex h-screen">
       <Sidebar />
       <div className="flex-1 flex flex-col">
         <Header />
-        <main className="flex-1 p-6 bg-gray-100">
+        <main className="flex-1 p-6 bg-white">
           {!loginOpen && <Outlet />}
+          {
+            switching &&
+            <div className="switching w-full h-full min-h-full min-w-full grid place-content-center">
+              <div className="content flex flex-col gap-4 items-center justify-center text-center">
+                <Avatar size="xxl" className="rounded-full" src="https://via.placeholder.com/90" />
+                {/* <div className="b-profile size-[100px] min-w-[100px] rounded-full bg-gray-200">
+                </div> */}
+                <Typography variant="h5" color="gray" className="font-OjahDisplaySemiBold">
+                  Switching to "{"Dummy Name"}"
+                </Typography>
+              </div>
+            </div>
+          }
         </main>
       </div>
       {loginOpen && (
@@ -35,13 +58,7 @@ const DashboardLayout = () => {
         </div>
       )}
       {!loginOpen && (
-        <AddBusinessDrawer
-          isOpen={isDrawOpen}
-          onClose={() => {
-            if (auth?.businesses.length === 0) return;
-            setDrawOpen(false);
-          }}
-        />
+        <AddBusinessDrawer />
       )}
     </div>
   );
