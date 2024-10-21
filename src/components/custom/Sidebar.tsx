@@ -21,8 +21,10 @@ const Sidebar = () => {
   return (
     <div
       className={cn(
-        "bg-[#FAFAFA] text-primary border-r border-[#F5F5F5] min-h-screen flex flex-col p-2 py-4 transition-width duration-300 justify-between",
-        "w-[250px] max-w-[250px]"
+        "bg-[#FAFAFA] text-primary border-r border-[#F5F5F5] min-h-screen flex-col p-2 py-4 transition-width duration-300 justify-between",
+        "w-[250px] max-w-[250px]",
+        "md:flex",
+        "hidden"
       )}
     >
       <div className="grid gap-5 lg:gap-12">
