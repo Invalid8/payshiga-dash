@@ -4,6 +4,7 @@ import Header from "@/components/custom/Header";
 import AddBusinessDrawer from "@/components/custom/business/add-business";
 import { useEffect, useState } from "react";
 import { isAuth } from "@/store/user";
+import LoginCard from "@/components/custom/auth/login";
 
 const DashboardLayout = () => {
   const [isDrawOpen, setDrawOpen] = useState<boolean>(false);
@@ -28,6 +29,11 @@ const DashboardLayout = () => {
           {!loginOpen && <Outlet />}
         </main>
       </div>
+      {loginOpen && (
+        <div className="flex items-center justify-center h-screen fixed z-20 top-0 left-0 right-0 bottom-0 bg-black/80 blur-0">
+          <LoginCard/>
+        </div>
+      )}
       {!loginOpen && (
         <AddBusinessDrawer
           isOpen={isDrawOpen}

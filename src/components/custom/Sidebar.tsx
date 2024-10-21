@@ -1,13 +1,24 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/utils/common";
+import { isAuth } from "@/store/user";
+import { Business } from "@/store/business";
 
 const Sidebar = () => {
   const [isProfilesOpen, setIsProfilesOpen] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<number>(0);
+  const [businesses, setBusinesses] = useState<Business[]>([]);
+
+  const auth = isAuth();
 
   const location = useLocation();
   const pathname = location.pathname;
+
+  useEffect(() => {
+    if (auth) {
+      setBusinesses(auth.businesses);
+    }
+  }, [auth]);
 
   return (
     <div
@@ -30,7 +41,7 @@ const Sidebar = () => {
               />
             </span>
             <span className="business-info text-start grid gris-rows-2">
-              <span className="business-name truncate text-[16px] font-medium">
+              <span className="business-name capitalize truncate text-[16px] font-medium">
                 Dummy {selectedId} technician xx
               </span>
               <span className="business-id truncate text-xs text-subtext">
@@ -89,8 +100,8 @@ const Sidebar = () => {
                     </span>
                   </button>
                 </li>
-                {[1, 2, 3, 5, 6].map(
-                  (_, index) =>
+                {businesses.map(
+                  (business, index) =>
                     index != selectedId && (
                       <li key={index}>
                         <button
@@ -111,8 +122,8 @@ const Sidebar = () => {
                             />
                           </span>
                           <span className="business-info grid text-start">
-                            <span className="business-name text-[14px] font-medium truncate">
-                              Dummy {index} technician xx
+                            <span className="business-name capitalize text-[14px] font-medium truncate">
+                              {business.name} {index}
                             </span>
                             <span className="business-id text-[11px] text-subtext truncate">
                               Business ID: 46357684

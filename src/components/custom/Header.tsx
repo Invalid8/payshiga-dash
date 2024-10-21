@@ -71,15 +71,15 @@ const Header = () => {
               src="https://via.placeholder.com/40"
               alt="avatar"
               variant="rounded"
-              placeholder={undefined}
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
+              placeholder={()=>{}}
+              onPointerEnterCapture={()=>{}}
+              onPointerLeaveCapture={()=>{}}
             />
           </PopoverHandler>
           <PopoverContent
-            placeholder={undefined}
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
+            placeholder={()=>{}}
+            onPointerEnterCapture={()=>{}}
+            onPointerLeaveCapture={()=>{}}
           >
             <span>Account Profile Info.</span>
           </PopoverContent>

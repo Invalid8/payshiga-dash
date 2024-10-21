@@ -1,11 +1,12 @@
 import { showNotification } from "@/utils/showNotification";
-import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Business } from "./business";
 
 interface User {
   id: string;
   name: string;
   email: string;
+  password: string;
 }
 
 interface AuthState {
@@ -22,9 +23,15 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login(state, action: PayloadAction<string>) {
-      const user = state.users.find((u) => u.email === action.payload);
+    login(state, action: PayloadAction<{ email: string; password: string }>) {
+      const user = state.users.find((u) => u.email === action.payload.email);
       if (user) {
+        if (user.password !== action.payload.password) {
+          showNotification("error", "top-right", undefined, {
+            message: "Incorrect password",
+          });
+          return;
+        }
         state.user = user;
         localStorage.setItem("user", JSON.stringify(user)); // Persist logged-in user
         showNotification("success", "top-right", undefined, {
@@ -53,16 +60,6 @@ const authSlice = createSlice({
 
 export const { login, logout, createUser } = authSlice.actions;
 export default authSlice.reducer;
-
-// Helper function for external use
-export const attemptLogin = (email: string) => (dispatch: Dispatch) => {
-  dispatch(login(email));
-};
-
-export const registerUser = (user: User) => (dispatch: Dispatch) => {
-  dispatch(createUser(user));
-  dispatch(login(user.email)); // Auto-login after registration
-};
 
 export const isAuth = (): { user: User; businesses: Business[] } | null => {
   const user = JSON.parse(localStorage.getItem("user") || "null");

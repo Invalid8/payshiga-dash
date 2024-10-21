@@ -40,9 +40,3 @@ const businessSlice = createSlice({
 
 export const { addBusiness, setActiveBusiness } = businessSlice.actions;
 export default businessSlice.reducer;
-
-// Selector to get businesses based on userId
-export const selectBusinessesByUser =
-  (userId: string) => (state: BusinessState) => {
-    return state.businesses.filter((b: Business) => b.userId === userId) || [];
-  };
