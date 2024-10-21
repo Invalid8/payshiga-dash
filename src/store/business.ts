@@ -59,7 +59,7 @@ const businessSlice = createSlice({
 
       if (userBusinesses.length === 0) {
         state.busFormOpen = true;
-        throw new Error("No business found.");
+        // throw new Error("No business found.");
       } else {
         if (!state.activeBusiness) state.activeBusiness = state.businesses[0];
       }
