@@ -15,7 +15,7 @@ const Sidebar = () => {
   const pathname = location.pathname;
 
   useEffect(() => {
-    setHide(auth?.businesses.length === 0);
+    setHide(!auth || auth?.businesses.length === 0);
   }, [auth]);
 
   return (
