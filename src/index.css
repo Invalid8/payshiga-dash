@@ -31,3 +31,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Add this to your global CSS file */
+@keyframes dropdown-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdown-leave {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+.animate-dropdown {
+  animation: dropdown-enter 0.3s ease-in-out forwards; /* For entering */
+}
+
+.dropdown-leave {
+  animation: dropdown-leave 0.3s ease-in-out forwards; /* For leaving */
+}
