@@ -133,9 +133,7 @@ const Sidebar = () => {
                               setSelectedId(index);
                               setIsProfilesOpen(false);
                               setSwitching(true)
-                              setTimeout(() => {
-                                dispatch(setActiveBusiness({ id: business.id, userId: isAuth?.id ?? "" }))
-                              }, 5000)
+                              dispatch(setActiveBusiness({ id: business.id, userId: isAuth?.id ?? "" }))
                               setSwitching(false)
                             }}
                           >
