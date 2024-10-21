@@ -31,10 +31,10 @@ const AddBusinessDrawer = ({
     annualVolume: "",
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
+  // const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target;
+  //   setForm({ ...form, [name]: value });
+  // };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -117,7 +117,10 @@ const AddBusinessDrawer = ({
             </div>
           ))}
         </div>
-        <div className="main sm:p-6 p-4 border h-full min-full grid place-content-center">
+        <form
+          onSubmit={handleSubmit}
+          className="main sm:p-6 p-4 border h-full min-full grid place-content-center"
+        >
           {!form.type ? (
             <div className="card max-w-md grid gap-4">
               <div className="h-tac">
@@ -401,7 +404,7 @@ const AddBusinessDrawer = ({
               </div>
             </div>
           )}
-        </div>
+        </form>
       </div>
     </Drawer>
   );
