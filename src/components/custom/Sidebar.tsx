@@ -4,6 +4,7 @@ import { cn } from "@/utils/common";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { openBusForm, setActiveBusiness, setSwitching } from "@/store/business";
+import { showNotification } from "@/utils/showNotification";
 
 const Sidebar = () => {
   const [isProfilesOpen, setIsProfilesOpen] = useState<boolean>(false);
@@ -96,7 +97,18 @@ const Sidebar = () => {
             >
               <ul className="grid gap-3">
                 <li className="cols-span-1">
-                  <button className="p-h grid grid-cols-[42px_142px] items-center p-1.5 hover:bg-gray-50 rounded-lg" onClick={() => dispatch(openBusForm())}>
+                  <button className="p-h grid grid-cols-[42px_142px] items-center p-1.5 hover:bg-gray-50 rounded-lg" onClick={() => {
+                    try {
+                      dispatch(openBusForm())
+                    } catch (error) {
+                      if (error instanceof Error)
+                        if (error instanceof Error)
+                          showNotification("error", "top-right", undefined, {
+                            message: error.message || "Something went wrong",
+                          });
+
+                    }
+                  }}>
                     <span className="business-icon text-start rounded-lg size-[42px] min-w-[43px] overflow-hidden bg-gray-100 grid place-content-center">
                       <svg
                         width="22"

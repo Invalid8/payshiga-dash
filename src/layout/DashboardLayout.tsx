@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Avatar, Typography } from "@material-tailwind/react";
 import { getBusinesses } from "@/store/business"
+import { showNotification } from "@/utils/showNotification";
 
 const DashboardLayout = () => {
   const [loginOpen, setLoginOpen] = useState<boolean>(false);
@@ -21,7 +22,15 @@ const DashboardLayout = () => {
       if (!isAuth) {
         setLoginOpen(true);
       } else {
-        dispatch(getBusinesses({ userId: isAuth.id }))
+        try {
+          dispatch(getBusinesses({ userId: isAuth.id }))
+
+        } catch (error) {
+          if (error instanceof Error)
+            showNotification("error", "top-right", undefined, {
+              message: error.message ?? "Something happened.",
+            });
+        }
       }
     }
 

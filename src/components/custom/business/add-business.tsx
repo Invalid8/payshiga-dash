@@ -40,7 +40,15 @@ const AddBusinessDrawer = () => {
 
   const closeDrawer = () => {
     if (!userId) return;
-    dispatch(closeBusForm())
+
+    try {
+      dispatch(closeBusForm())
+    } catch (error) {
+      if (error instanceof Error)
+        showNotification("error", "top-right", undefined, {
+          message: error.message || "Something went wrong",
+        });
+    }
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
