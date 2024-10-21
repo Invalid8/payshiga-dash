@@ -9,6 +9,8 @@ const Sidebar = () => {
   const [selectedId, setSelectedId] = useState<number>(0);
   const [businesses, setBusinesses] = useState<Business[]>([]);
 
+  const [hide, setHide] = useState<boolean>(false);
+
   const auth = isAuth();
 
   const location = useLocation();
@@ -18,6 +20,8 @@ const Sidebar = () => {
     if (auth) {
       setBusinesses(auth.businesses);
     }
+
+    setHide(!auth || businesses.length === 0);
   }, [auth]);
 
   return (
@@ -29,43 +33,56 @@ const Sidebar = () => {
     >
       <div className="grid gap-5 lg:gap-12">
         <div className="profiles w-full border bg-white border-[#E2E3E5] rounded-xl grid h-fit">
-          <button
-            className="p-h grid grid-cols-[42px_130px_10px] gap-2 items-center p-3"
-            onClick={() => setIsProfilesOpen(!isProfilesOpen)}
-          >
-            <span className="business-icon rounded-lg size-[42px] min-w-[43px] overflow-hidden bg-gray-200">
-              <img
-                src="https://via.placeholder.com/40"
-                alt="Profile"
-                className="object-cover w-full h-full"
-              />
-            </span>
-            <span className="business-info text-start grid gris-rows-2">
-              <span className="business-name capitalize truncate text-[16px] font-medium">
-                Dummy {selectedId} technician xx
-              </span>
-              <span className="business-id truncate text-xs text-subtext">
-                Business ID: 46357684
-              </span>
-            </span>
-            <span>
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M11.7101 5.18159L9.02846 2.5L6.34716 5.1813M11.648 12.8184L8.9664 15.5L6.2851 12.8187"
-                  stroke="#6F6F6F"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+          {hide ? (
+            <div className="p-h grid grid-cols-[42px_130px_10px] gap-2 items-center p-3 animate-pulse">
+              <span className="business-icon rounded-lg size-[42px] min-w-[43px] bg-gray-300"></span>
+
+              <div className="business-info text-start grid gris-rows-2">
+                <div className="business-name h-4 bg-gray-300 rounded-md w-[120px] mb-1"></div>
+                <div className="business-id h-3 bg-gray-300 rounded-md w-[90px]"></div>
+              </div>
+
+              <span className="h-4 w-4 bg-gray-300 rounded-full"></span>
+            </div>
+          ) : (
+            <button
+              className="p-h grid grid-cols-[42px_130px_10px] gap-2 items-center p-3"
+              onClick={() => setIsProfilesOpen(!isProfilesOpen)}
+            >
+              <span className="business-icon rounded-lg size-[42px] min-w-[43px] overflow-hidden bg-gray-200">
+                <img
+                  src="https://via.placeholder.com/40"
+                  alt="Profile"
+                  className="object-cover w-full h-full"
                 />
-              </svg>
-            </span>
-          </button>
+              </span>
+              <span className="business-info text-start grid gris-rows-2">
+                <span className="business-name capitalize truncate text-[16px] font-medium">
+                  Dummy {selectedId} technician xx
+                </span>
+                <span className="business-id truncate text-xs text-subtext">
+                  Business ID: 46357684
+                </span>
+              </span>
+              <span>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11.7101 5.18159L9.02846 2.5L6.34716 5.1813M11.648 12.8184L8.9664 15.5L6.2851 12.8187"
+                    stroke="#6F6F6F"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            </button>
+          )}
           <div className="overflow-hidden relative max-h-[180px]">
             <div
               className={cn(
@@ -140,45 +157,55 @@ const Sidebar = () => {
 
         <div className="top-nav">
           <nav className="grid gap-6 px-6 py-2 h-full justify-between">
-            <Link
-              key={"Home"}
-              to={"/dashboard"}
-              className={cn("flex items-center gap-3")}
-            >
-              <span className="icon size-[24px] min-w-[24px] grid place-content-center">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 14 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.25 0H1.75C0.783502 0 0 0.783502 0 1.75V3.5H4.375H14V1.75C14 0.783502 13.2165 0 12.25 0Z"
-                    fill={pathname == "/dashboard" ? "#5540EB" : "#E2E3E5"}
-                  />
-                  <path
-                    d="M0 12.25C0 13.2165 0.783502 14 1.75 14H3.5V4.375H0V12.25Z"
-                    fill={pathname == "/dashboard" ? "#5540EB" : "#E2E3E5"}
-                  />
-                  <path
-                    d="M12.25 14C13.2165 14 14 13.2165 14 12.25V4.375H4.375V14H12.25Z"
-                    fill={pathname == "/dashboard" ? "#CDCBFF" : "#E2E3E5"}
-                  />
-                </svg>
-              </span>
-              <span
-                className={cn(
-                  "text-[16px] capitalize hover:text-secondary",
-                  pathname == "/dashboard" && "text-secondary",
-                  pathname != "/dashboard" && "text-subtext"
-                )}
+            {!hide ? (
+              <Link
+                key={"Home"}
+                to={"/dashboard"}
+                className={cn("flex items-center gap-3")}
               >
-                Home
-              </span>
-            </Link>
-            {paths.map(({ name, path, Icon }) => {
-              return (
+                <span className="icon size-[24px] min-w-[24px] grid place-content-center">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.25 0H1.75C0.783502 0 0 0.783502 0 1.75V3.5H4.375H14V1.75C14 0.783502 13.2165 0 12.25 0Z"
+                      fill={pathname == "/dashboard" ? "#5540EB" : "#E2E3E5"}
+                    />
+                    <path
+                      d="M0 12.25C0 13.2165 0.783502 14 1.75 14H3.5V4.375H0V12.25Z"
+                      fill={pathname == "/dashboard" ? "#5540EB" : "#E2E3E5"}
+                    />
+                    <path
+                      d="M12.25 14C13.2165 14 14 13.2165 14 12.25V4.375H4.375V14H12.25Z"
+                      fill={pathname == "/dashboard" ? "#CDCBFF" : "#E2E3E5"}
+                    />
+                  </svg>
+                </span>
+                <span
+                  className={cn(
+                    "text-[16px] capitalize hover:text-secondary",
+                    pathname == "/dashboard" && "text-secondary",
+                    pathname != "/dashboard" && "text-subtext"
+                  )}
+                >
+                  Home
+                </span>
+              </Link>
+            ) : (
+              <div className="flex items-center gap-3 animate-pulse">
+                {/* Skeleton for Icon */}
+                <span className="icon size-[24px] min-w-[24px] grid place-content-center bg-gray-300 rounded"></span>
+
+                {/* Skeleton for Text */}
+                <span className="h-4 w-24 bg-gray-300 rounded"></span>
+              </div>
+            )}
+            {paths.map(({ name, path, Icon }) =>
+              !hide ? (
                 <Link
                   key={path}
                   to={path}
@@ -197,89 +224,108 @@ const Sidebar = () => {
                     {name}
                   </span>
                 </Link>
-              );
-            })}
+              ) : (
+                <div className="flex items-center gap-3 animate-pulse">
+                  <span className="icon size-[24px] min-w-[24px] grid place-content-center bg-gray-300 rounded"></span>
+                  <span className="h-4 w-24 bg-gray-300 rounded"></span>
+                </div>
+              )
+            )}
           </nav>
         </div>
       </div>
       <div className="bottom-nav pb-4">
         <nav className="grid gap-6 px-6 py-2 justify-between">
-          <Link
-            key={"Settings"}
-            to={"/dashboard/settings"}
-            className={cn("flex items-center gap-3")}
-          >
-            <span className="icon size-[24px] min-w-[24px] grid place-content-center">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+          {!hide && (
+            <>
+              <Link
+                key={"Settings"}
+                to={"/dashboard/settings"}
+                className={cn("flex items-center gap-3")}
               >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M1.84731 3.69442C1.2737 4.03897 0.924805 4.64593 0.924805 5.29928V10.5473C0.924805 11.1842 1.25648 11.7782 1.80698 12.1272L6.3957 15.0366C7.3701 15.6545 8.63026 15.6545 9.60466 15.0366L14.1934 12.1272C14.7439 11.7782 15.0756 11.1842 15.0756 10.5473V5.29928C15.0756 4.64593 14.7267 4.03897 14.153 3.69442L9.54416 0.926014C8.59851 0.357995 7.40184 0.357995 6.4562 0.926014L1.84731 3.69442ZM8.00018 11.3318C9.88661 11.3318 11.4159 9.85186 11.4159 8.02627C11.4159 6.20069 9.88661 4.72076 8.00018 4.72076C6.11374 4.72076 4.58448 6.20069 4.58448 8.02627C4.58448 9.85186 6.11374 11.3318 8.00018 11.3318Z"
-                  fill={
-                    pathname.startsWith("/dashboard/settings")
-                      ? "#5540EB"
-                      : "#99999C"
-                  }
-                />
-              </svg>
-            </span>
-            <span
-              className={cn(
-                "text-[16px] capitalize hover:text-secondary",
-                pathname.startsWith("/dashboard/settings") && "text-secondary",
-                !pathname.startsWith("/dashboard/settings") && "text-subtext"
-              )}
-            >
-              Settings
-            </span>
-          </Link>
-          <Link
-            key={"Contact"}
-            to={"/dashboard/contact"}
-            className={cn("flex items-center gap-3")}
-          >
-            <span className="icon size-[24px] min-w-[24px] grid place-content-center">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+                <span className="icon size-[24px] min-w-[24px] grid place-content-center">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M1.84731 3.69442C1.2737 4.03897 0.924805 4.64593 0.924805 5.29928V10.5473C0.924805 11.1842 1.25648 11.7782 1.80698 12.1272L6.3957 15.0366C7.3701 15.6545 8.63026 15.6545 9.60466 15.0366L14.1934 12.1272C14.7439 11.7782 15.0756 11.1842 15.0756 10.5473V5.29928C15.0756 4.64593 14.7267 4.03897 14.153 3.69442L9.54416 0.926014C8.59851 0.357995 7.40184 0.357995 6.4562 0.926014L1.84731 3.69442ZM8.00018 11.3318C9.88661 11.3318 11.4159 9.85186 11.4159 8.02627C11.4159 6.20069 9.88661 4.72076 8.00018 4.72076C6.11374 4.72076 4.58448 6.20069 4.58448 8.02627C4.58448 9.85186 6.11374 11.3318 8.00018 11.3318Z"
+                      fill={
+                        pathname.startsWith("/dashboard/settings")
+                          ? "#5540EB"
+                          : "#99999C"
+                      }
+                    />
+                  </svg>
+                </span>
+                <span
+                  className={cn(
+                    "text-[16px] capitalize hover:text-secondary",
+                    pathname.startsWith("/dashboard/settings") &&
+                      "text-secondary",
+                    !pathname.startsWith("/dashboard/settings") &&
+                      "text-subtext"
+                  )}
+                >
+                  Settings
+                </span>
+              </Link>
+              <Link
+                key={"Contact"}
+                to={"/dashboard/contact"}
+                className={cn("flex items-center gap-3")}
               >
-                <path
-                  d="M14.4939 7.22058C13.5294 6.25611 12.2213 5.71427 10.8573 5.71427C10.0835 5.71376 9.31955 5.88788 8.62236 6.22365C7.92519 6.55943 7.31277 7.0482 6.83074 7.65355C6.34871 8.25891 6.0095 8.96523 5.83839 9.71991C5.66728 10.4746 5.66866 11.2581 5.84247 12.0122C6.01626 12.7663 6.35798 13.4714 6.84216 14.075C7.32634 14.6786 7.9405 15.1652 8.63887 15.4985C9.33724 15.8318 10.1018 16.0032 10.8756 16C11.6495 15.9967 12.4126 15.8188 13.1081 15.4796L15.4075 15.8934C15.6691 15.9404 15.8824 15.6849 15.7894 15.4359L15.141 13.7008C15.7042 12.8596 16.0034 11.8695 16.0002 10.8571C16.0002 9.49316 15.4584 8.18505 14.4939 7.22058Z"
-                  fill={
-                    pathname.startsWith("/dashboard/contact")
-                      ? "#CDCBFF"
-                      : "#E2E3E5"
-                  }
-                />
-                <path
-                  d="M6.30309 -1.38846e-05C4.63142 -1.38846e-05 3.02821 0.664059 1.84615 1.84611C0.664101 3.02817 3.13657e-05 4.63137 3.13657e-05 6.30305C-0.00390503 7.54373 0.362754 8.75732 1.05301 9.78827L0.210821 12.042C0.117791 12.291 0.331129 12.5465 0.592697 12.4995L3.54457 11.9684C3.83774 12.1113 4.1407 12.231 4.45062 12.3265C4.34272 11.854 4.28573 11.3622 4.28573 10.8571C4.28573 7.22783 7.22785 4.2857 10.8572 4.2857C11.3644 4.2857 11.8582 4.34316 12.3323 4.45194C12.1011 3.69916 11.7304 2.995 11.2381 2.37676C10.6473 1.63484 9.89672 1.0358 9.04226 0.624281C8.18779 0.212758 7.25149 -0.000640079 6.30309 -1.38846e-05Z"
-                  fill={
-                    pathname.startsWith("/dashboard/contact")
-                      ? "#5540EB"
-                      : "#929292"
-                  }
-                />
-              </svg>
-            </span>
-            <span
-              className={cn(
-                "text-[16px] capitalize hover:text-secondary",
-                pathname.startsWith("/dashboard/contact") && "text-secondary",
-                !pathname.startsWith("/dashboard/contact") && "text-subtext"
-              )}
-            >
-              contact us
-            </span>
-          </Link>
+                <span className="icon size-[24px] min-w-[24px] grid place-content-center">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14.4939 7.22058C13.5294 6.25611 12.2213 5.71427 10.8573 5.71427C10.0835 5.71376 9.31955 5.88788 8.62236 6.22365C7.92519 6.55943 7.31277 7.0482 6.83074 7.65355C6.34871 8.25891 6.0095 8.96523 5.83839 9.71991C5.66728 10.4746 5.66866 11.2581 5.84247 12.0122C6.01626 12.7663 6.35798 13.4714 6.84216 14.075C7.32634 14.6786 7.9405 15.1652 8.63887 15.4985C9.33724 15.8318 10.1018 16.0032 10.8756 16C11.6495 15.9967 12.4126 15.8188 13.1081 15.4796L15.4075 15.8934C15.6691 15.9404 15.8824 15.6849 15.7894 15.4359L15.141 13.7008C15.7042 12.8596 16.0034 11.8695 16.0002 10.8571C16.0002 9.49316 15.4584 8.18505 14.4939 7.22058Z"
+                      fill={
+                        pathname.startsWith("/dashboard/contact")
+                          ? "#CDCBFF"
+                          : "#E2E3E5"
+                      }
+                    />
+                    <path
+                      d="M6.30309 -1.38846e-05C4.63142 -1.38846e-05 3.02821 0.664059 1.84615 1.84611C0.664101 3.02817 3.13657e-05 4.63137 3.13657e-05 6.30305C-0.00390503 7.54373 0.362754 8.75732 1.05301 9.78827L0.210821 12.042C0.117791 12.291 0.331129 12.5465 0.592697 12.4995L3.54457 11.9684C3.83774 12.1113 4.1407 12.231 4.45062 12.3265C4.34272 11.854 4.28573 11.3622 4.28573 10.8571C4.28573 7.22783 7.22785 4.2857 10.8572 4.2857C11.3644 4.2857 11.8582 4.34316 12.3323 4.45194C12.1011 3.69916 11.7304 2.995 11.2381 2.37676C10.6473 1.63484 9.89672 1.0358 9.04226 0.624281C8.18779 0.212758 7.25149 -0.000640079 6.30309 -1.38846e-05Z"
+                      fill={
+                        pathname.startsWith("/dashboard/contact")
+                          ? "#5540EB"
+                          : "#929292"
+                      }
+                    />
+                  </svg>
+                </span>
+                <span
+                  className={cn(
+                    "text-[16px] capitalize hover:text-secondary",
+                    pathname.startsWith("/dashboard/contact") &&
+                      "text-secondary",
+                    !pathname.startsWith("/dashboard/contact") && "text-subtext"
+                  )}
+                >
+                  contact us
+                </span>
+              </Link>
+            </>
+          )}
+          {hide &&
+            [1, 2].map((_) => (
+              <div className="flex items-center gap-3 animate-pulse">
+                <span className="icon size-[24px] min-w-[24px] grid place-content-center bg-gray-300 rounded"></span>
+                <span className="h-4 w-24 bg-gray-300 rounded"></span>
+              </div>
+            ))}
         </nav>
       </div>
     </div>

@@ -30,8 +30,8 @@ const DashboardLayout = () => {
         </main>
       </div>
       {loginOpen && (
-        <div className="flex items-center justify-center h-screen fixed z-20 top-0 left-0 right-0 bottom-0 bg-black/80 blur-0">
-          <LoginCard/>
+        <div className="flex items-center justify-center h-screen fixed z-20 top-0 left-0 right-0 bottom-0 bg-black/60 blur-0">
+          <LoginCard />
         </div>
       )}
       {!loginOpen && (
