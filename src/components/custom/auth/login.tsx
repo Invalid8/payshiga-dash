@@ -7,39 +7,34 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { login } from "@/store/user";
+import { showNotification } from "@/utils/showNotification";
+import { useDispatch } from "react-redux";
 
 const LoginCard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     setLoading(true);
+    console.log("here");
     e.preventDefault();
-    login({ email, password }); // Call the login handler passed as prop
+    try {
+      dispatch(login({ email, password }));
+    } catch (error: any) {
+      console.log(error);
+      showNotification("error", "top-right", undefined, {
+        message: error.message || "Something went wrong",
+      });
+    }
     setLoading(false);
   };
 
   return (
-    <Card
-      className="w-full max-w-sm mx-auto shadow-lg bg-white rounded-lg relative"
-      placeholder={() => {}}
-      onPointerEnterCapture={() => {}}
-      onPointerLeaveCapture={() => {}}
-    >
-      <CardBody
-        placeholder={() => {}}
-        onPointerEnterCapture={() => {}}
-        onPointerLeaveCapture={() => {}}
-      >
-        <Typography
-          variant="h5"
-          color="blue-gray"
-          className="text-center mb-4"
-          placeholder={() => {}}
-          onPointerEnterCapture={() => {}}
-          onPointerLeaveCapture={() => {}}
-        >
+    <Card className="w-full max-w-sm mx-auto shadow-lg bg-white rounded-lg relative">
+      <CardBody>
+        <Typography variant="h5" color="blue-gray" className="text-center mb-4">
           Login to Your Account
         </Typography>
         <form onSubmit={handleSubmit}>
@@ -50,8 +45,6 @@ const LoginCard = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              onPointerEnterCapture={() => {}}
-              onPointerLeaveCapture={() => {}}
               crossOrigin={"x"}
             />
           </div>
@@ -62,19 +55,10 @@ const LoginCard = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              onPointerEnterCapture={() => {}}
-              onPointerLeaveCapture={() => {}}
               crossOrigin={"x"}
             />
           </div>
-          <Button
-            type="submit"
-            className="w-full"
-            loading={loading}
-            placeholder={() => {}}
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
-          >
+          <Button type="submit" className="w-full" loading={loading}>
             Login
           </Button>
         </form>

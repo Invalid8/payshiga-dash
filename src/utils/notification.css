@@ -1,19 +1,33 @@
-#notification-error>div.Toastify__toast-body {
-    font-weight: 500;
-    color: #ed1919 !important;
+.Toastify__toast {
+    min-height: 1rem !important;
+    padding: 3px !important;
+    height: 4rem !important;
 }
 
-#notification-warn>div.Toastify__toast-body {
-    font-weight: 500;
-    color: #fbcf00 !important;
+.Toastify__toast-body>div:last-child {
+    text-align: center !important;
 }
 
-#notification-info>div.Toastify__toast-body {
-    font-weight: 500;
+.Toastify__toast-theme--dark {
+    border: none !important;
+    border-radius: 1.5rem !important;
+    background-color: #fbcf00 !important;
+    color: #000 !important;
+    margin: 1.2rem !important;
+}
+
+.Toastify__toast-theme--info {
+    border: none !important;
+    border-radius: 1.5rem !important;
+    background-color: #fbcf00 !important;
+    color: #000 !important;
+    margin: 1.2rem !important;
+}
+
+.Toastify__toast-theme--danger {
+    border: none !important;
+    border-radius: 1.5rem !important;
+    background-color: red !important;
     color: #fff !important;
-}
-
-#notification-success>div.Toastify__toast-body {
-    font-weight: 500;
-    color: #0dce0d !important;
+    margin: 1.2rem !important;
 }

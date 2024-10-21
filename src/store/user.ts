@@ -14,9 +14,18 @@ interface AuthState {
   users: User[];
 }
 
+const dum_users: User[] = [
+  {
+    id: "1",
+    name: "payshiga",
+    email: "user1@payshiga.com",
+    password: "payshiga",
+  },
+];
+
 const initialState: AuthState = {
   user: JSON.parse(localStorage.getItem("user") || "null"),
-  users: JSON.parse(localStorage.getItem("users") || "[]"), // Store all users
+  users: JSON.parse(localStorage.getItem("users") || JSON.stringify(dum_users)), // Store all users
 };
 
 const authSlice = createSlice({
@@ -27,10 +36,7 @@ const authSlice = createSlice({
       const user = state.users.find((u) => u.email === action.payload.email);
       if (user) {
         if (user.password !== action.payload.password) {
-          showNotification("error", "top-right", undefined, {
-            message: "Incorrect password",
-          });
-          return;
+          throw new Error("Incorrect password");
         }
         state.user = user;
         localStorage.setItem("user", JSON.stringify(user)); // Persist logged-in user
@@ -38,9 +44,7 @@ const authSlice = createSlice({
           message: "User sign-in successfully",
         });
       } else {
-        showNotification("error", "top-right", undefined, {
-          message: "User not found",
-        });
+        throw new Error("User not found");
       }
     },
     logout(state) {

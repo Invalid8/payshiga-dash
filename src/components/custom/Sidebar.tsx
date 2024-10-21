@@ -2,14 +2,12 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { cn } from "@/utils/common";
 import { isAuth } from "@/store/user";
-import { Business } from "@/store/business";
 
 const Sidebar = () => {
   const [isProfilesOpen, setIsProfilesOpen] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<number>(0);
-  const [businesses, setBusinesses] = useState<Business[]>([]);
 
-  const [hide, setHide] = useState<boolean>(false);
+  const [hide, setHide] = useState<boolean>(true);
 
   const auth = isAuth();
 
@@ -17,11 +15,7 @@ const Sidebar = () => {
   const pathname = location.pathname;
 
   useEffect(() => {
-    if (auth) {
-      setBusinesses(auth.businesses);
-    }
-
-    setHide(!auth || businesses.length === 0);
+    setHide(auth?.businesses.length === 0);
   }, [auth]);
 
   return (
@@ -117,39 +111,41 @@ const Sidebar = () => {
                     </span>
                   </button>
                 </li>
-                {businesses.map(
-                  (business, index) =>
-                    index != selectedId && (
-                      <li key={index}>
-                        <button
-                          className={cn(
-                            "p-h grid grid-cols-[42px_142px] gap-2 items-center rounded-lg hover:bg-gray-50 p-1.5",
-                            index == selectedId && "bg-primary text-white p-1.5"
-                          )}
-                          onClick={() => {
-                            setSelectedId(index);
-                            setIsProfilesOpen(false);
-                          }}
-                        >
-                          <span className="business-icon rounded-lg size-[42px] min-w-[43px] overflow-hidden bg-gray-200">
-                            <img
-                              src="https://via.placeholder.com/40"
-                              alt="Profile"
-                              className="object-cover w-full h-full"
-                            />
-                          </span>
-                          <span className="business-info grid text-start">
-                            <span className="business-name capitalize text-[14px] font-medium truncate">
-                              {business.name} {index}
+                {auth?.businesses &&
+                  auth?.businesses.map(
+                    (business, index) =>
+                      index != selectedId && (
+                        <li key={index}>
+                          <button
+                            className={cn(
+                              "p-h grid grid-cols-[42px_142px] gap-2 items-center rounded-lg hover:bg-gray-50 p-1.5",
+                              index == selectedId &&
+                                "bg-primary text-white p-1.5"
+                            )}
+                            onClick={() => {
+                              setSelectedId(index);
+                              setIsProfilesOpen(false);
+                            }}
+                          >
+                            <span className="business-icon rounded-lg size-[42px] min-w-[43px] overflow-hidden bg-gray-200">
+                              <img
+                                src="https://via.placeholder.com/40"
+                                alt="Profile"
+                                className="object-cover w-full h-full"
+                              />
                             </span>
-                            <span className="business-id text-[11px] text-subtext truncate">
-                              Business ID: 46357684
+                            <span className="business-info grid text-start">
+                              <span className="business-name capitalize text-[14px] font-medium truncate">
+                                {business.name} {index}
+                              </span>
+                              <span className="business-id text-[11px] text-subtext truncate">
+                                Business ID: 46357684
+                              </span>
                             </span>
-                          </span>
-                        </button>
-                      </li>
-                    )
-                )}
+                          </button>
+                        </li>
+                      )
+                  )}
               </ul>
             </div>
           </div>
@@ -197,14 +193,11 @@ const Sidebar = () => {
               </Link>
             ) : (
               <div className="flex items-center gap-3 animate-pulse">
-                {/* Skeleton for Icon */}
                 <span className="icon size-[24px] min-w-[24px] grid place-content-center bg-gray-300 rounded"></span>
-
-                {/* Skeleton for Text */}
                 <span className="h-4 w-24 bg-gray-300 rounded"></span>
               </div>
             )}
-            {paths.map(({ name, path, Icon }) =>
+            {paths.map(({ name, path, Icon }, index) =>
               !hide ? (
                 <Link
                   key={path}
@@ -225,7 +218,10 @@ const Sidebar = () => {
                   </span>
                 </Link>
               ) : (
-                <div className="flex items-center gap-3 animate-pulse">
+                <div
+                  className="flex items-center gap-3 animate-pulse"
+                  key={index}
+                >
                   <span className="icon size-[24px] min-w-[24px] grid place-content-center bg-gray-300 rounded"></span>
                   <span className="h-4 w-24 bg-gray-300 rounded"></span>
                 </div>
@@ -320,8 +316,11 @@ const Sidebar = () => {
             </>
           )}
           {hide &&
-            [1, 2].map((_) => (
-              <div className="flex items-center gap-3 animate-pulse">
+            [1, 2].map((_, index) => (
+              <div
+                className="flex items-center gap-3 animate-pulse"
+                key={index}
+              >
                 <span className="icon size-[24px] min-w-[24px] grid place-content-center bg-gray-300 rounded"></span>
                 <span className="h-4 w-24 bg-gray-300 rounded"></span>
               </div>
