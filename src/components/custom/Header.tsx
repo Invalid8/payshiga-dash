@@ -6,6 +6,7 @@ import {
   PopoverContent,
   PopoverHandler,
 } from "@material-tailwind/react";
+import { MenuIcon } from "lucide-react";
 import { useState } from "react";
 
 const Header = () => {
@@ -17,7 +18,12 @@ const Header = () => {
 
   return (
     <header className="bg-white shadow-md flex justify-between items-center p-4 px-6 border-b border-[#F5F5F5]">
-      <div className="">Dashboard</div>
+      <div className="flex items-center gap-2">
+        <button className="md:block hidden">
+          <MenuIcon />
+        </button>
+        <span>Dashboard</span>
+      </div>
       <div className="flex items-center space-x-3">
         <div className="text-live flex gap-2 items-center pr-6 border-r-2 border-gray-200">
           <span
