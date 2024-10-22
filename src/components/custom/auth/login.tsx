@@ -34,6 +34,7 @@ const LoginCard = () => {
         showNotification("error", "top-right", undefined, {
           message: error?.message ?? "Something went wrong",
         });
+      console.log(error);
     }
     setLoading(false);
   };

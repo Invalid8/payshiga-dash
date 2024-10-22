@@ -20,7 +20,7 @@ const Sidebar = () => {
   const [hide, setHide] = useState<boolean>(true);
   const dispatch = useAppDispatch();
 
-  const isAuth = useAppSelector(selectUserState);
+  const user = useAppSelector(selectUserState);
   const { businesses } = useAppSelector((state) => state.business);
   const activeBusiness = useAppSelector(selectActiveBusiness);
   const switching = useAppSelector(selectSwitchState);
@@ -34,8 +34,8 @@ const Sidebar = () => {
   const pathname = location.pathname;
 
   useEffect(() => {
-    setHide(!isAuth || businesses.length === 0 || switching);
-  }, [businesses, isAuth, switching]);
+    setHide(!user || businesses.length === 0 || switching);
+  }, [businesses, user, switching]);
 
   function closeBar() {
     setSidebarOpen(false);
@@ -170,7 +170,7 @@ const Sidebar = () => {
                               dispatch(
                                 setActiveBusiness({
                                   id: business.id,
-                                  userId: isAuth?.id ?? "",
+                                  userId: user?.id ?? "",
                                 })
                               );
                               closeBar();

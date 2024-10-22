@@ -11,6 +11,7 @@ import useLocalStorage from "use-local-storage";
 import { cn } from "@/utils/common";
 import Joyride, { Step } from "react-joyride";
 import { useAppDispatch, useAppSelector } from "@/utils/hooks";
+import { selectUserState } from "@/store/features/user";
 
 const DashboardLayout = () => {
   const [loginOpen, setLoginOpen] = useState<boolean>(false);
@@ -48,16 +49,16 @@ const DashboardLayout = () => {
     false
   );
 
-  const isAuth = useAppSelector((state) => state.user.user);
+  const user = useAppSelector(selectUserState);
   const busFormOpen = useAppSelector((state) => state.business.busFormOpen);
 
   useEffect(() => {
     function loadData() {
-      if (!isAuth) {
+      if (!user) {
         setLoginOpen(true);
       } else {
         try {
-          dispatch(getBusinesses({ userId: isAuth.id }));
+          dispatch(getBusinesses({ userId: user.id }));
         } catch (error) {
           if (error instanceof Error)
             showNotification("error", "top-right", undefined, {
@@ -68,7 +69,7 @@ const DashboardLayout = () => {
     }
 
     loadData();
-  }, [dispatch, isAuth]);
+  }, [dispatch, user]);
 
   const handleTourCallback = (data: { status: string }) => {
     const { status } = data;

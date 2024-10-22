@@ -22,10 +22,11 @@ import { useNavigate } from "react-router-dom";
 import { cn } from "@/utils/common";
 import { Input } from "@nextui-org/input";
 import { Select, SelectItem } from "@nextui-org/select";
+import { selectUserState } from "@/store/features/user";
 
 const AddBusinessDrawer = () => {
   const dispatch = useAppDispatch();
-  const userId = useAppSelector((state) => state?.user.user?.id);
+  const userId = useAppSelector(selectUserState)?.id;
   const overlayRef = useRef<HTMLDivElement>(null);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);

@@ -12,6 +12,7 @@ import { ArrowLeftCircle, LogOut, MenuIcon } from "lucide-react";
 import { useState } from "react";
 import { useAppDispatch } from "@/utils/hooks";
 import useLocalStorage from "use-local-storage";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isLive, setIsLive] = useState<boolean>(false);
@@ -19,6 +20,7 @@ const Header = () => {
   const [isSidebar, SetIsSidebar] = useLocalStorage<boolean>("sidebar", false);
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   function showNotifications() {
     //TODO: view notification as modal or in a new page
@@ -116,7 +118,7 @@ const Header = () => {
                     localStorage.removeItem("users");
                     localStorage.removeItem("businesses");
 
-                    window.location.reload();
+                    navigate(0);
                   }}
                 >
                   <ArrowLeftCircle />
