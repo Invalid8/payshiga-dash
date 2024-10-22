@@ -9,7 +9,6 @@ import useLocalStorage from "use-local-storage";
 
 const Sidebar = () => {
   const [isProfilesOpen, setIsProfilesOpen] = useState<boolean>(false);
-  const [selectedId, setSelectedId] = useState<number>(0);
 
   const [hide, setHide] = useState<boolean>(true);
   const dispatch = useDispatch();
@@ -150,16 +149,15 @@ const Sidebar = () => {
                 {businesses &&
                   businesses.map(
                     (business, index) =>
-                      index != selectedId && (
+                      business.id != activeBusiness?.id && (
                         <li key={index}>
                           <button
                             className={cn(
                               "p-h grid grid-cols-[42px_142px] gap-2 items-center rounded-lg hover:bg-gray-50 p-1.5",
-                              index == selectedId &&
+                              business.id == activeBusiness?.id &&
                                 "bg-primary text-white p-1.5"
                             )}
                             onClick={() => {
-                              setSelectedId(index);
                               setIsProfilesOpen(false);
                               setSwitching(true);
                               dispatch(
