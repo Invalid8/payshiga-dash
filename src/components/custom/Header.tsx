@@ -87,7 +87,7 @@ const Header = () => {
         </button>
         <Popover placement="bottom">
           <PopoverHandler>
-            <button className="p-0 m-0 third-step bg-gray-200">
+            <button className="p-0 m-0 third-step bg-gray-200 rounded-md overflow-hidden text-opacity-0">
               <Avatar
                 src="https://via.placeholder.com/40"
                 alt="avatar"

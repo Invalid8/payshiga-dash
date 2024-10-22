@@ -63,7 +63,7 @@ const Sidebar = () => {
                 setIsProfilesOpen(!isProfilesOpen);
               }}
             >
-              <span className="business-icon rounded-lg size-[42px] min-w-[43px] overflow-hidden bg-gray-200">
+              <span className="business-icon rounded-lg size-[42px] min-w-[43px] overflow-hidden bg-gray-200 text-opacity-0">
                 <img
                   src="https://via.placeholder.com/40"
                   alt="Profile"
