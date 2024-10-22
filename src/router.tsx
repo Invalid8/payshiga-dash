@@ -8,12 +8,14 @@ import Home from "@/page/Home";
 import ErrorPage from "@/page/ErrorPage";
 import DashboardLayout from "@/layout/DashboardLayout";
 import Dashboard from "@/page/dashboard";
-import RootLayout from "./layout/RootLayout";
+import RootLayout from "@/layout/RootLayout";
+import Demo from "@/page/demo";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" errorElement={<ErrorPage />} element={<RootLayout />}>
       <Route index element={<Home />} />
+        <Route path="demo" element={<Demo />}></Route>
       <Route path="dashboard" element={<DashboardLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="transactions" element={<Dashboard />}></Route>

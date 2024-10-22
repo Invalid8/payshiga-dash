@@ -129,7 +129,9 @@ const AddBusinessDrawer = () => {
       className={cn(
         "rounded-t-3xl backdrop-blur-none! gap-0 grid grid-rows-[90px_1fr]",
         busFormOpen &&
-          "h-[calc(100svh_-_95px)] min-h-[calc(100svh_-_95px)] max-h-[calc(100svh_-_95px)]"
+          "sm:h-[calc(100svh_-_95px)] sm:min-h-[calc(100svh_-_95px)] sm:max-h-[calc(100svh_-_95px)]",
+        busFormOpen &&
+          "h-[calc(100svh_-_80px)] min-h-[calc(100svh_-_80px)] max-h-[calc(100svh_-_80px)]"
       )}
       placement="bottom"
       overlay={true}
