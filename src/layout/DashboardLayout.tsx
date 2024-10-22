@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import LoginCard from "@/components/custom/auth/login";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { Avatar, Typography } from "@material-tailwind/react";
 import { getBusinesses } from "@/store/business";
 import { showNotification } from "@/utils/showNotification";
 import useLocalStorage from "use-local-storage";
@@ -21,7 +20,6 @@ const DashboardLayout = () => {
   );
 
   const isAuth = useSelector((state: RootState) => state.user.user);
-  const switching = useSelector((state: RootState) => state.business.switching);
 
   useEffect(() => {
     function loadData() {
@@ -40,37 +38,15 @@ const DashboardLayout = () => {
     }
 
     loadData();
-
-    console.log(switching, console.log(switching));
-  }, [dispatch, isAuth, switching]);
+  }, [dispatch, isAuth]);
 
   return (
     <div className="flex h-screen">
       <Sidebar />
       <div className="flex-1 flex flex-col relative">
         <Header />
-        <main className="flex-1 p-6 bg-white">
+        <main className="flex-1 p-6 bg-white h-full overflow-scroll">
           {!loginOpen && <Outlet />}
-          {switching && (
-            <div className="switching w-full h-full min-h-full min-w-full grid place-content-center">
-              <div className="content flex flex-col gap-4 items-center justify-center text-center">
-                <Avatar
-                  size="xxl"
-                  className="rounded-full"
-                  src="https://via.placeholder.com/90"
-                />
-                {/* <div className="b-profile size-[100px] min-w-[100px] rounded-full bg-gray-200">
-                </div> */}
-                <Typography
-                  variant="h5"
-                  color="gray"
-                  className="font-OjahDisplaySemiBold"
-                >
-                  Switching to "{"Dummy Name"}"
-                </Typography>
-              </div>
-            </div>
-          )}
         </main>
         <div
           className={cn(

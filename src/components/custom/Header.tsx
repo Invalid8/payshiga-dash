@@ -12,7 +12,7 @@ import useLocalStorage from "use-local-storage";
 
 const Header = () => {
   const [isLive, setIsLive] = useState<boolean>(false);
-  const [isNotifications] = useState<boolean>(false);
+  const [isNotifications] = useState<boolean>(true);
   const [isSidebar, SetIsSidebar] = useLocalStorage<boolean>("sidebar", false);
 
   function showNotifications() {

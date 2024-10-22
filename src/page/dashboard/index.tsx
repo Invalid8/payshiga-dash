@@ -1,3 +1,4 @@
+import Switching from "@/components/reusables/Switching";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 
@@ -29,6 +30,7 @@ const Dashboard = () => {
         <p className="text-gray-400">{formatDate(date)}</p>
       </div>
       <hr className="text-gray-400" />
+      <Switching />
     </div>
   );
 };
