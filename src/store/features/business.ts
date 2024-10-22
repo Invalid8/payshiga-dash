@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from ".";
+import { RootState } from "@/store";
 
 // Business model
 export interface Business {
@@ -68,15 +68,12 @@ const businessSlice = createSlice({
       state.businesses = userBusinesses;
     },
     addBusiness(state, action: PayloadAction<Business>) {
-      state.switching = true;
-
       const existingBusiness = state.businesses.find(
         (b) =>
           b.name === action.payload.name && b.userId === action.payload.userId
       );
 
       if (existingBusiness) {
-        state.switching = false;
         throw new Error("Business name already exists.");
       }
 
@@ -87,8 +84,6 @@ const businessSlice = createSlice({
 
       // Set the newly created business as active
       state.activeBusiness = action.payload;
-
-      state.switching = false;
     },
     setActiveBusiness(
       state,
@@ -102,10 +97,7 @@ const businessSlice = createSlice({
         throw new Error("Invalid Business Id");
       }
 
-      state.switching = true;
-
       state.activeBusiness = business;
-      state.switching = false;
     },
   },
 });
@@ -124,5 +116,6 @@ export const selectActiveBusiness = (state: RootState) =>
   state.business.activeBusiness;
 export const selectBusinesses = (state: RootState) =>
   state.business.activeBusiness;
+export const selectSwitchState = (state: RootState) => state.business.switching;
 
 export default businessSlice.reducer;

@@ -1,7 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import userReducer from "@/store/user";
-import businessReducer from "@/store/business";
+import userReducer from "@/store/features/user";
+import businessReducer from "@/store/features/business";
+import { setupListeners } from "@reduxjs/toolkit/query";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
   },
 });
 
+setupListeners(store.dispatch);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

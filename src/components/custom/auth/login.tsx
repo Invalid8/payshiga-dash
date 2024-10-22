@@ -6,7 +6,7 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
-import { login } from "@/store/user";
+import { login } from "@/store/features/user";
 import { showNotification } from "@/utils/showNotification";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/utils/hooks";
@@ -34,7 +34,6 @@ const LoginCard = () => {
         showNotification("error", "top-right", undefined, {
           message: error?.message ?? "Something went wrong",
         });
-      console.log(error);
     }
     setLoading(false);
   };

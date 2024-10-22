@@ -1,4 +1,4 @@
-import { logout } from "@/store/user";
+import { logout } from "@/store/features/user";
 import { cn } from "@/utils/common";
 import { Switch } from "@headlessui/react";
 import {

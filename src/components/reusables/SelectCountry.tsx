@@ -35,7 +35,7 @@ export default function CountriesSelect({
       labelPlacement="outside"
       renderValue={(items) => {
         return items.map((item) => (
-          <span className="flex items-center gap-2">
+          <span className="flex items-center gap-2" key={item.data?.name}>
             <img
               src={item.data?.flags.png}
               alt={item.data?.name}

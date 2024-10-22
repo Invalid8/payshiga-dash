@@ -3,9 +3,16 @@ import { useEffect, useState } from "react";
 import { cn } from "@/utils/common";
 import { useAppDispatch, useAppSelector } from "@/utils/hooks";
 
-import { openBusForm, setActiveBusiness, setSwitching } from "@/store/business";
+import {
+  openBusForm,
+  selectActiveBusiness,
+  selectSwitchState,
+  setActiveBusiness,
+  setSwitching,
+} from "@/store/features/business";
 import { showNotification } from "@/utils/showNotification";
 import useLocalStorage from "use-local-storage";
+import { selectUserState } from "@/store/features/user";
 
 const Sidebar = () => {
   const [isProfilesOpen, setIsProfilesOpen] = useState<boolean>(false);
@@ -13,10 +20,10 @@ const Sidebar = () => {
   const [hide, setHide] = useState<boolean>(true);
   const dispatch = useAppDispatch();
 
-  const isAuth = useAppSelector((state) => state.user.user);
-  const { businesses, activeBusiness } = useAppSelector(
-    (state) => state.business
-  );
+  const isAuth = useAppSelector(selectUserState);
+  const { businesses } = useAppSelector((state) => state.business);
+  const activeBusiness = useAppSelector(selectActiveBusiness);
+  const switching = useAppSelector(selectSwitchState);
 
   const [isSidebarOpen, setSidebarOpen] = useLocalStorage<boolean>(
     "sidebar",
@@ -27,8 +34,8 @@ const Sidebar = () => {
   const pathname = location.pathname;
 
   useEffect(() => {
-    setHide(!isAuth || businesses.length === 0);
-  }, [businesses, isAuth]);
+    setHide(!isAuth || businesses.length === 0 || switching);
+  }, [businesses, isAuth, switching]);
 
   function closeBar() {
     setSidebarOpen(false);
@@ -159,7 +166,7 @@ const Sidebar = () => {
                             )}
                             onClick={() => {
                               setIsProfilesOpen(false);
-                              setSwitching(true);
+
                               dispatch(
                                 setActiveBusiness({
                                   id: business.id,
@@ -167,7 +174,12 @@ const Sidebar = () => {
                                 })
                               );
                               closeBar();
-                              setSwitching(false);
+                              dispatch(setSwitching(true));
+
+                              // TODO" Future request to setup user's business as active business"
+                              setTimeout(() => {
+                                dispatch(setSwitching(false));
+                              }, 2000);
                             }}
                           >
                             <span className="business-icon rounded-lg size-[42px] min-w-[43px] overflow-hidden bg-gray-200">

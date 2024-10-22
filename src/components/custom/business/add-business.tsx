@@ -11,7 +11,12 @@ import {
 } from "@material-tailwind/react";
 import SelectCountry from "@/components/reusables/SelectCountry";
 import PayshigaIcon from "@/components/custom/icon/payshiga";
-import { addBusiness, Business, closeBusForm } from "@/store/business";
+import {
+  addBusiness,
+  Business,
+  closeBusForm,
+  setSwitching,
+} from "@/store/features/business";
 import { MoveLeftIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/utils/common";
@@ -96,6 +101,13 @@ const AddBusinessDrawer = () => {
         size: "",
         annualVolume: "",
       });
+      dispatch(setSwitching(true));
+
+      // TODO" Future request to setup user's business as active business"
+      setTimeout(() => {
+        dispatch(setSwitching(false));
+      }, 2000);
+
       showNotification("success", "top-right", undefined, {
         message: "Business account created successfully",
       });

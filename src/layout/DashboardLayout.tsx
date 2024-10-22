@@ -5,7 +5,7 @@ import AddBusinessDrawer from "@/components/custom/business/add-business";
 import { useEffect, useState } from "react";
 import LoginCard from "@/components/custom/auth/login";
 
-import { getBusinesses } from "@/store/business";
+import { getBusinesses } from "@/store/features/business";
 import { showNotification } from "@/utils/showNotification";
 import useLocalStorage from "use-local-storage";
 import { cn } from "@/utils/common";

@@ -1,14 +1,16 @@
-import { User } from "@/store/user";
+import { User } from "@/store/features/user";
 import { useEffect } from "react";
-import { useAppSelector } from "@/utils/hooks";
+import { useAppDispatch, useAppSelector } from "@/utils/hooks";
 import { Outlet, useNavigate } from "react-router-dom";
 import useLocalStorage from "use-local-storage";
+import { getBusinesses } from "@/store/features/business";
 
 const RootLayout = () => {
   const [userL] = useLocalStorage<User | null>("user", null);
 
   const user = useAppSelector((state) => state.user.user);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (JSON.stringify(userL) !== JSON.stringify(user)) {
@@ -19,8 +21,8 @@ const RootLayout = () => {
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === "user") {
-        console.log("LocalStorage data has changed!", event);
-        navigate(0);
+        console.log("LocalStorage data has changed!");
+        if (user) dispatch(getBusinesses({ userId: user?.id }));
       }
     };
 
@@ -29,7 +31,7 @@ const RootLayout = () => {
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, [navigate]);
+  }, [dispatch, navigate, user]);
 
   return (
     <>

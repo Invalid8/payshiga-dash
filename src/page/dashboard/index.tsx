@@ -1,12 +1,16 @@
 import Switching from "@/components/reusables/Switching";
+import {
+  selectActiveBusiness,
+  selectSwitchState,
+} from "@/store/features/business";
+import { selectUserState } from "@/store/features/user";
 
 import { useAppSelector } from "@/utils/hooks";
 
 const Dashboard = () => {
-  const user = useAppSelector((state) => state.user.user);
-  const activeBusiness = useAppSelector(
-    (state) => state.business.activeBusiness
-  );
+  const user = useAppSelector(selectUserState);
+  const activeBusiness = useAppSelector(selectActiveBusiness);
+  const switching = useAppSelector(selectSwitchState);
 
   const date = new Date();
 
@@ -27,7 +31,13 @@ const Dashboard = () => {
             {activeBusiness?.name ?? user?.name}
           </span>
         </h1>
-        <p className="text-gray-400">{formatDate(date)}</p>
+        {!switching ? (
+          <p className="text-gray-400">{formatDate(date)}</p>
+        ) : (
+          <div className="flex items-center gap-3 animate-pulse">
+            <span className="h-4 w-48 bg-gray-300 rounded"></span>
+          </div>
+        )}
       </div>
       <hr className="text-gray-400" />
       <Switching />
