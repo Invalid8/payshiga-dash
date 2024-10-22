@@ -70,6 +70,16 @@ const LoginCard = () => {
             Login
           </Button>
         </form>
+        <div className="ring-1 bg-blue-gray-500/10 rounded-lg p-4 mt-4">
+          <ul>
+            <li>
+              <strong>Username:</strong> user1@payshiga.com
+            </li>
+            <li>
+              <strong>Password:</strong> payshiga
+            </li>
+          </ul>
+        </div>
       </CardBody>
     </Card>
   );

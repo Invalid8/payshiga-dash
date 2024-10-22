@@ -59,7 +59,7 @@ const Sidebar = () => {
             </div>
           ) : (
             <button
-              className="p-h grid grid-cols-[42px_130px_10px] gap-2 items-center p-3"
+              className="p-h grid grid-cols-[42px_130px_10px] gap-2 items-center p-3 first-step"
               onClick={() => {
                 setIsProfilesOpen(!isProfilesOpen);
               }}
@@ -111,11 +111,11 @@ const Sidebar = () => {
               <ul className="grid gap-3">
                 <li className="cols-span-1">
                   <button
-                    className="p-h grid grid-cols-[42px_142px] items-center p-1.5 hover:bg-gray-50 rounded-lg"
+                    className="p-h grid grid-cols-[42px_142px] items-center p-1.5 hover:bg-gray-50 rounded-lg second-step"
                     onClick={() => {
                       try {
                         dispatch(openBusForm());
-                        setIsProfilesOpen(false)
+                        setIsProfilesOpen(false);
                         closeBar();
                       } catch (error) {
                         if (error instanceof Error)

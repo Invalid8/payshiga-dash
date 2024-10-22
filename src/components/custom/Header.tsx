@@ -1,19 +1,24 @@
+import { logout } from "@/store/user";
 import { cn } from "@/utils/common";
 import { Switch } from "@headlessui/react";
 import {
   Avatar,
+  Button,
   Popover,
   PopoverContent,
   PopoverHandler,
 } from "@material-tailwind/react";
-import { MenuIcon } from "lucide-react";
+import { ArrowLeftCircle, LogOut, MenuIcon } from "lucide-react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import useLocalStorage from "use-local-storage";
 
 const Header = () => {
   const [isLive, setIsLive] = useState<boolean>(false);
   const [isNotifications] = useState<boolean>(true);
   const [isSidebar, SetIsSidebar] = useLocalStorage<boolean>("sidebar", false);
+
+  const dispatch = useDispatch();
 
   function showNotifications() {
     //TODO: view notification as modal or in a new page
@@ -82,14 +87,53 @@ const Header = () => {
         </button>
         <Popover placement="bottom">
           <PopoverHandler>
-            <Avatar
-              src="https://via.placeholder.com/40"
-              alt="avatar"
-              variant="rounded"
-            />
+            <button className="p-0 m-0 third-step">
+              <Avatar
+                src="https://via.placeholder.com/40"
+                alt="avatar"
+                variant="rounded"
+              />
+            </button>
           </PopoverHandler>
-          <PopoverContent>
-            <span>Account Profile Info.</span>
+          <PopoverContent className="w-[200px]">
+            <ul className="grid gap-2">
+              <li>
+                <span>Actions</span>
+              </li>
+              <li>
+                <Button
+                  className="flex items-center gap-2 w-full"
+                  variant="outlined"
+                  color="red"
+                  onClick={() => {
+                    if (
+                      !confirm(
+                        "Are sure you want to reset, you will lose all the local data on test"
+                      )
+                    )
+                      return;
+                    localStorage.removeItem("user");
+                    localStorage.removeItem("users");
+                    localStorage.removeItem("businesses");
+
+                    window.location.reload();
+                  }}
+                >
+                  <ArrowLeftCircle />
+                  <span>Reset Data</span>
+                </Button>
+              </li>
+              <li>
+                <Button
+                  className="flex items-center gap-2 w-full"
+                  color="red"
+                  onClick={() => dispatch(logout())}
+                >
+                  <LogOut />
+                  <span>Logout</span>
+                </Button>
+              </li>
+            </ul>
           </PopoverContent>
         </Popover>
       </div>
