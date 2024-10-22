@@ -5,32 +5,43 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { openBusForm, setActiveBusiness, setSwitching } from "@/store/business";
 import { showNotification } from "@/utils/showNotification";
+import useLocalStorage from "use-local-storage";
 
 const Sidebar = () => {
   const [isProfilesOpen, setIsProfilesOpen] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<number>(0);
 
   const [hide, setHide] = useState<boolean>(true);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const isAuth = useSelector((state: RootState) => state.user.user);
-  const { businesses, activeBusiness } = useSelector((state: RootState) => state.business);
+  const { businesses, activeBusiness } = useSelector(
+    (state: RootState) => state.business
+  );
+
+  const [isSidebarOpen, setSidebarOpen] = useLocalStorage<boolean>(
+    "sidebar",
+    false
+  );
 
   const location = useLocation();
   const pathname = location.pathname;
-
 
   useEffect(() => {
     setHide(!isAuth || businesses.length === 0);
   }, [businesses, isAuth]);
 
+  function closeBar() {
+    setSidebarOpen(false);
+  }
+
   return (
     <div
       className={cn(
-        "bg-[#FAFAFA] text-primary border-r border-[#F5F5F5] min-h-screen flex-col p-2 py-4 transition-width duration-300 justify-between",
-        "w-[250px] max-w-[250px]",
-        "md:flex",
-        "hidden"
+        "bg-[#FAFAFA] text-primary h-full border-r border-[#F5F5F5] min-h-screen flex-col p-2 py-4 transition-width duration-300 justify-between",
+        "w-[250px] max-w-[250px] md:relative absolute top-0 bottom-0 md:z-auto md:translate-x-0",
+        isSidebarOpen && "translate-x-0 z-50",
+        !isSidebarOpen && "translate-x-[-100%]"
       )}
     >
       <div className="grid gap-5 lg:gap-12">
@@ -49,7 +60,9 @@ const Sidebar = () => {
           ) : (
             <button
               className="p-h grid grid-cols-[42px_130px_10px] gap-2 items-center p-3"
-              onClick={() => setIsProfilesOpen(!isProfilesOpen)}
+              onClick={() => {
+                setIsProfilesOpen(!isProfilesOpen);
+              }}
             >
               <span className="business-icon rounded-lg size-[42px] min-w-[43px] overflow-hidden bg-gray-200">
                 <img
@@ -90,25 +103,29 @@ const Sidebar = () => {
               className={cn(
                 "p-b",
                 isProfilesOpen &&
-                "h-full max-h-[180px] overflow-y-auto p-3 border-t border-gray-50 animate-dropdown",
+                  "h-full max-h-[180px] overflow-y-auto p-3 border-t border-gray-50 animate-dropdown",
                 !isProfilesOpen &&
-                "h-0 overflow-hidden transition-[height] dropdown-leave"
+                  "h-0 overflow-hidden transition-[height] dropdown-leave"
               )}
             >
               <ul className="grid gap-3">
                 <li className="cols-span-1">
-                  <button className="p-h grid grid-cols-[42px_142px] items-center p-1.5 hover:bg-gray-50 rounded-lg" onClick={() => {
-                    try {
-                      dispatch(openBusForm())
-                    } catch (error) {
-                      if (error instanceof Error)
+                  <button
+                    className="p-h grid grid-cols-[42px_142px] items-center p-1.5 hover:bg-gray-50 rounded-lg"
+                    onClick={() => {
+                      try {
+                        dispatch(openBusForm());
+                        setIsProfilesOpen(false)
+                        closeBar();
+                      } catch (error) {
                         if (error instanceof Error)
-                          showNotification("error", "top-right", undefined, {
-                            message: error.message || "Something went wrong",
-                          });
-
-                    }
-                  }}>
+                          if (error instanceof Error)
+                            showNotification("error", "top-right", undefined, {
+                              message: error.message || "Something went wrong",
+                            });
+                      }
+                    }}
+                  >
                     <span className="business-icon text-start rounded-lg size-[42px] min-w-[43px] overflow-hidden bg-gray-100 grid place-content-center">
                       <svg
                         width="22"
@@ -139,14 +156,20 @@ const Sidebar = () => {
                             className={cn(
                               "p-h grid grid-cols-[42px_142px] gap-2 items-center rounded-lg hover:bg-gray-50 p-1.5",
                               index == selectedId &&
-                              "bg-primary text-white p-1.5"
+                                "bg-primary text-white p-1.5"
                             )}
                             onClick={() => {
                               setSelectedId(index);
                               setIsProfilesOpen(false);
-                              setSwitching(true)
-                              dispatch(setActiveBusiness({ id: business.id, userId: isAuth?.id ?? "" }))
-                              setSwitching(false)
+                              setSwitching(true);
+                              dispatch(
+                                setActiveBusiness({
+                                  id: business.id,
+                                  userId: isAuth?.id ?? "",
+                                })
+                              );
+                              closeBar();
+                              setSwitching(false);
                             }}
                           >
                             <span className="business-icon rounded-lg size-[42px] min-w-[43px] overflow-hidden bg-gray-200">
@@ -178,6 +201,7 @@ const Sidebar = () => {
             {!hide ? (
               <Link
                 key={"Home"}
+                onClick={closeBar}
                 to={"/dashboard"}
                 className={cn("flex items-center gap-3")}
               >
@@ -223,6 +247,7 @@ const Sidebar = () => {
               !hide ? (
                 <Link
                   key={path}
+                  onClick={closeBar}
                   to={path}
                   className={cn("flex items-center gap-3")}
                 >
@@ -252,12 +277,13 @@ const Sidebar = () => {
           </nav>
         </div>
       </div>
-      <div className="bottom-nav pb-4">
+      <div className="bottom-nav pb-4 pt-2">
         <nav className="grid gap-6 px-6 py-2 justify-between">
           {!hide && (
             <>
               <Link
                 key={"Settings"}
+                onClick={closeBar}
                 to={"/dashboard/settings"}
                 className={cn("flex items-center gap-3")}
               >
@@ -285,9 +311,9 @@ const Sidebar = () => {
                   className={cn(
                     "text-[16px] capitalize hover:text-secondary",
                     pathname.startsWith("/dashboard/settings") &&
-                    "text-secondary",
+                      "text-secondary",
                     !pathname.startsWith("/dashboard/settings") &&
-                    "text-subtext"
+                      "text-subtext"
                   )}
                 >
                   Settings
@@ -295,6 +321,7 @@ const Sidebar = () => {
               </Link>
               <Link
                 key={"Contact"}
+                onClick={closeBar}
                 to={"/dashboard/contact"}
                 className={cn("flex items-center gap-3")}
               >
@@ -328,7 +355,7 @@ const Sidebar = () => {
                   className={cn(
                     "text-[16px] capitalize hover:text-secondary",
                     pathname.startsWith("/dashboard/contact") &&
-                    "text-secondary",
+                      "text-secondary",
                     !pathname.startsWith("/dashboard/contact") && "text-subtext"
                   )}
                 >

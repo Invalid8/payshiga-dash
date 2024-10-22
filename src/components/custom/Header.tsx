@@ -8,9 +8,12 @@ import {
 } from "@material-tailwind/react";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
+import useLocalStorage from "use-local-storage";
 
 const Header = () => {
   const [isLive, setIsLive] = useState<boolean>(false);
+  const [isNotifications] = useState<boolean>(false);
+  const [isSidebar, SetIsSidebar] = useLocalStorage<boolean>("sidebar", false);
 
   function showNotifications() {
     //TODO: view notification as modal or in a new page
@@ -19,10 +22,14 @@ const Header = () => {
   return (
     <header className="bg-white shadow-md flex justify-between items-center p-4 px-6 border-b border-[#F5F5F5]">
       <div className="flex items-center gap-2">
-        <button className="md:block hidden">
+        <button
+          className="md:hidden block"
+          onClick={() => SetIsSidebar(!isSidebar)}
+        >
           <MenuIcon />
+          <span className="sr-only">Menu</span>
         </button>
-        <span>Dashboard</span>
+        <span className="md:block hidden">Dashboard</span>
       </div>
       <div className="flex items-center space-x-3">
         <div className="text-live flex gap-2 items-center pr-6 border-r-2 border-gray-200">
@@ -59,7 +66,9 @@ const Header = () => {
               stroke="#99999C"
               strokeWidth="1.8"
             />
-            <rect x="14" y="2" width="8" height="8" rx="4" fill="#FF4E4E" />
+            {isNotifications && (
+              <rect x="14" y="2" width="8" height="8" rx="4" fill="#FF4E4E" />
+            )}
             <rect
               x="14"
               y="2"

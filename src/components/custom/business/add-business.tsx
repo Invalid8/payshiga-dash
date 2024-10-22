@@ -27,7 +27,7 @@ const AddBusinessDrawer = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const { busFormOpen } = useSelector((state: RootState) => state.business)
+  const { busFormOpen } = useSelector((state: RootState) => state.business);
 
   const [form, setForm] = useState<Omit<Business, "userId" | "id">>({
     type: "",
@@ -42,14 +42,22 @@ const AddBusinessDrawer = () => {
     if (!userId) return;
 
     try {
-      dispatch(closeBusForm())
+      dispatch(closeBusForm());
+      setForm({
+        type: "",
+        name: "",
+        country: "",
+        industry: "",
+        size: "",
+        annualVolume: "",
+      });
     } catch (error) {
       if (error instanceof Error)
         showNotification("error", "top-right", undefined, {
           message: error.message || "Something went wrong",
         });
     }
-  }
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -112,7 +120,7 @@ const AddBusinessDrawer = () => {
       className={cn(
         "rounded-t-3xl backdrop-blur-none! gap-0 grid grid-rows-[90px_1fr]",
         busFormOpen &&
-        "h-[calc(100svh_-_95px)] min-h-[calc(100svh_-_95px)] max-h-[calc(100svh_-_95px)]"
+          "h-[calc(100svh_-_95px)] min-h-[calc(100svh_-_95px)] max-h-[calc(100svh_-_95px)]"
       )}
       placement="bottom"
       overlay={true}

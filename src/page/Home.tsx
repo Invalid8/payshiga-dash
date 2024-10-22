@@ -18,7 +18,7 @@ const Home = () => {
         </p>
         <button
           onClick={goToDashboard}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-primary text-white font-bold py-2 px-4 rounded"
         >
           Go to Dashboard
         </button>
