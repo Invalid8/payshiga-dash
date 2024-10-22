@@ -7,9 +7,6 @@ import {
   Button,
   Drawer,
   IconButton,
-  Input,
-  Option,
-  Select,
   Typography,
 } from "@material-tailwind/react";
 import SelectCountry from "@/components/reusables/SelectCountry";
@@ -18,6 +15,8 @@ import { addBusiness, Business, closeBusForm } from "@/store/business";
 import { MoveLeftIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/utils/common";
+import { Input } from "@nextui-org/input";
+import { Select, SelectItem } from "@nextui-org/select";
 
 const AddBusinessDrawer = () => {
   const dispatch = useDispatch();
@@ -466,7 +465,7 @@ const AddBusinessDrawer = () => {
                 </Typography>
               </div>
               <hr />
-              <div className="mt-2 grid gap-8">
+              <div className="mt-2 grid gap-6">
                 <SelectCountry
                   country={form.country}
                   setCountry={(e) => {
@@ -475,6 +474,10 @@ const AddBusinessDrawer = () => {
                 />
                 <div className="grid gap-1">
                   <Input
+                    classNames={{
+                      inputWrapper: "border-none"
+                    }}
+                    labelPlacement="outside"
                     type="text"
                     label="What is your business name?"
                     placeholder="Business Name"
@@ -482,100 +485,124 @@ const AddBusinessDrawer = () => {
                     value={form.name}
                     onChange={handleChange}
                     required
-                    crossOrigin={"x"}
-                    variant="static"
+                    isRequired
+                    size="lg"
+                    radius="md"
+                    variant="faded"
                   />
                   <span className="text-xs text-gray-600 text-right">
                     Use the Registered business name in your document
                   </span>
                 </div>
                 <Select
+                  required
+                  isRequired
+                  size="lg"
+                  radius="md"
+                  labelPlacement="outside"
                   name="industry"
                   label="Business Industry"
                   placeholder="Select Industry"
-                  menuProps={{
-                    className: "bg-primary text-white",
-                  }}
                   onChange={(e) => {
-                    setForm({ ...form, industry: e ?? "" });
+                    setForm({ ...form, industry: e.target.value ?? "" });
                   }}
-                  variant="static"
+                  classNames={{
+                    trigger: "border-none",
+                    listboxWrapper: "bg-primary text-white rounded-lg",
+                  }}
+                  variant="faded"
                 >
-                  <Option
+                  <SelectItem
                     key="ecommerce"
                     value="ecommerce"
                     className="capitalize"
                   >
                     ecommerce
-                  </Option>
-                  <Option key="finance" value="finance" className="capitalize">
+                  </SelectItem>
+                  <SelectItem
+                    key="finance"
+                    value="finance"
+                    className="capitalize"
+                  >
                     finance
-                  </Option>
+                  </SelectItem>
                 </Select>
                 <div className="sm:grid grid-cols-2 gap-4 flex flex-wrap">
                   <Select
+                    labelPlacement="outside"
+                    required
+                    isRequired
+                    size="lg"
+                    radius="md"
                     name="company_size"
                     label="Company Size"
                     placeholder="Select a size"
                     className="w-full"
-                    variant="static"
-                    menuProps={{
-                      className: "bg-primary text-white",
+                    classNames={{
+                      trigger: "border-none",
+                      listboxWrapper: "bg-primary text-white rounded-lg",
                     }}
+                    variant="faded"
                     onChange={(e) => {
-                      setForm({ ...form, size: e ?? "" });
+                      setForm({ ...form, size: e.target.value ?? "" });
                     }}
                     value={form.size}
                   >
-                    <Option
+                    <SelectItem
                       key="100-200"
                       value="100-200"
                       className="capitalize"
                     >
                       100 - 200
-                    </Option>
-                    <Option
+                    </SelectItem>
+                    <SelectItem
                       key="200-500"
                       value="200-500"
                       className="capitalize"
                     >
                       200 - 500
-                    </Option>
+                    </SelectItem>
                   </Select>
                   <Select
+                    required
+                    isRequired
+                    size="lg"
+                    radius="md"
+                    labelPlacement="outside"
                     name="annual_value"
                     label="Estimated annual value"
                     placeholder="Select an option"
                     className="w-full"
-                    variant="static"
-                    value={form.annualVolume}
-                    menuProps={{
-                      className: "bg-primary text-white",
+                    classNames={{
+                      trigger: "border-none",
+                      listboxWrapper: "bg-primary text-white rounded-lg",
                     }}
+                    variant="faded"
+                    value={form.annualVolume}
                     onChange={(e) => {
-                      setForm({ ...form, annualVolume: e ?? "" });
+                      setForm({ ...form, annualVolume: e.target.value ?? "" });
                     }}
                   >
-                    <Option
+                    <SelectItem
                       key="100-200"
                       value="100-200"
                       className="capitalize"
                     >
                       $100 - $200
-                    </Option>
-                    <Option
+                    </SelectItem>
+                    <SelectItem
                       key="200-500"
                       value="200-500"
                       className="capitalize"
                     >
                       $200 - $500
-                    </Option>
+                    </SelectItem>
                   </Select>
                 </div>
                 <div className="btn-wrapper justify-between gap-4 md:gap-6 grid grid-cols-2">
                   <Button
                     variant="outlined"
-                    className="w-full border-primary rounded-lg! border-2 flex gap-2 items-center text-center justify-center"
+                    className="w-full border-primary normal-case text-[14px] rounded-lg! border-2 flex gap-2 items-center text-center justify-center"
                     onClick={() => {
                       setForm({ ...form, type: "" });
                     }}
@@ -585,11 +612,11 @@ const AddBusinessDrawer = () => {
                   <Button
                     loading={loading}
                     variant="filled"
-                    className="w-full bg-primary text-white border-primary rounded-lg! border-2 items-center text-center justify-center"
+                    className="w-full bg-primary text-white border-primary normal-case text-[14px] rounded-lg! border-2 items-center text-center justify-center"
                     type="submit"
                     disabled={isDisabled}
                   >
-                    Continue
+                    Create Business
                   </Button>
                 </div>
               </div>

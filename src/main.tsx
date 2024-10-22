@@ -7,12 +7,15 @@ import router from "./router";
 import { Provider } from "react-redux";
 import store from "./store";
 import { ToastContainer } from "@/utils/showNotification";
+import { NextUIProvider } from "@nextui-org/system";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer />
-      <RouterProvider router={router} />
+      <NextUIProvider>
+        <ToastContainer />
+        <RouterProvider router={router} />
+      </NextUIProvider>
     </Provider>
   </React.StrictMode>
 );

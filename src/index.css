@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
   font-family: "OjahDisplay";
   src: url("/fonts/OjahDisplay-Black.otf") format("woff2"),
@@ -28,9 +32,34 @@
   font-family: "Inter", sans-serif;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@layer base {
+  :root {
+    --primary: 222.2 1.2% 20%;
+    /* #343433 in HSL */
+    --primary-50: 180 100% 97%;
+    /* #effefb in HSL */
+    --secondary: 246.7 91.2% 63.9%;
+    /* #625BF6 in HSL */
+    --secondary-50: 180 100% 97%;
+    /* #effefb in HSL */
+    --subtext: 240 1.6% 61.2%;
+    /* #99999C in HSL */
+  }
+
+  .dark {
+    --primary: 222.2 1.2% 20%;
+    /* Dark theme primary */
+    --primary-50: 180 100% 97%;
+    /* Dark theme primary-50 */
+    --secondary: 246.7 91.2% 63.9%;
+    /* Dark theme secondary */
+    --secondary-50: 180 100% 97%;
+    /* Dark theme secondary-50 */
+    --subtext: 240 1.6% 61.2%;
+    /* Dark theme subtext */
+  }
+}
+
 
 /* Add this to your global CSS file */
 @keyframes dropdown-enter {
@@ -38,6 +67,7 @@
     opacity: 0;
     transform: translateY(-100%);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -49,6 +79,7 @@
     opacity: 1;
     transform: translateY(0);
   }
+
   to {
     opacity: 0;
     transform: translateY(-100%);
@@ -56,9 +87,11 @@
 }
 
 .animate-dropdown {
-  animation: dropdown-enter 0.3s ease-in-out forwards; /* For entering */
+  animation: dropdown-enter 0.3s ease-in-out forwards;
+  /* For entering */
 }
 
 .dropdown-leave {
-  animation: dropdown-leave 0.3s ease-in-out forwards; /* For leaving */
+  animation: dropdown-leave 0.3s ease-in-out forwards;
+  /* For leaving */
 }

@@ -1,6 +1,5 @@
-import React from "react";
+import { Select, SelectItem } from "@nextui-org/select";
 import { useCountries } from "use-react-countries";
-import { Select, Option } from "@material-tailwind/react";
 
 type Country = { name: string; flags: { svg: string; png: string } };
 
@@ -13,47 +12,56 @@ export default function CountriesSelect({
 }) {
   const { countries } = useCountries() as {
     countries: Country[];
+    loading: boolean;
   };
 
   return (
     <Select
       size="lg"
+      items={countries.slice(0,30)}
       label="Where is our business located?"
       placeholder="Select Country"
       className="w-full"
-      menuProps={{
-        className: "bg-primary text-white top-0!",
-        style: { top: "0!important" },
+      classNames={{
+        trigger: "border-none",
+        listboxWrapper: "bg-primary text-white rounded-lg",
       }}
-      labelProps={{
-        className: "top-0!",
-        style: { top: "0!important" },
-      }}
-      variant="static"
+      variant="faded"
       value={country}
-      offset={0}
       onChange={(e) => {
-        setCountry(e);
+        setCountry(e.target.value);
       }}
-      selected={(element) =>
-        element &&
-        React.cloneElement(element, {
-          disabled: true,
-          className:
-            "flex items-center opacity-100 px-0 gap-2 pointer-events-none",
-        })
-      }
+      isRequired
+      labelPlacement="outside"
+      renderValue={(items) => {
+        return items.map((item) => (
+          <span className="flex items-center gap-2">
+            <img
+              src={item.data?.flags.png}
+              alt={item.data?.name}
+              className="h-6 w-6 rounded-full object-cover"
+            />
+            <span>{item.data?.name}</span>
+          </span>
+        ));
+      }}
     >
-      {countries.map(({ name, flags }) => (
-        <Option key={name} value={name} className="flex items-center gap-2">
-          <img
-            src={flags.png}
-            alt={name}
-            className="h-6 w-6 rounded-full object-cover"
-          />
-          {name}
-        </Option>
-      ))}
+      {(country) => (
+        <SelectItem
+          key={country.name}
+          value={country.name}
+          textValue={country.name}
+        >
+          <span className="flex items-center gap-2">
+            <img
+              src={country.flags.png}
+              alt={country.name}
+              className="h-6 w-6 rounded-full object-cover"
+            />
+            <span>{country.name}</span>
+          </span>
+        </SelectItem>
+      )}
     </Select>
   );
 }
