@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from ".";
 
 // Business model
 export interface Business {
@@ -118,5 +119,10 @@ export const {
   getBusinesses,
   setSwitching,
 } = businessSlice.actions;
+
+export const selectActiveBusiness = (state: RootState) =>
+  state.business.activeBusiness;
+export const selectBusinesses = (state: RootState) =>
+  state.business.activeBusiness;
 
 export default businessSlice.reducer;

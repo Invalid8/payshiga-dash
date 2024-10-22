@@ -10,7 +10,7 @@ import {
 } from "@material-tailwind/react";
 import { ArrowLeftCircle, LogOut, MenuIcon } from "lucide-react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/utils/hooks";
 import useLocalStorage from "use-local-storage";
 
 const Header = () => {
@@ -18,7 +18,7 @@ const Header = () => {
   const [isNotifications] = useState<boolean>(true);
   const [isSidebar, SetIsSidebar] = useLocalStorage<boolean>("sidebar", false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   function showNotifications() {
     //TODO: view notification as modal or in a new page

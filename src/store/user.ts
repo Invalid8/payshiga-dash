@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Business } from "./business";
+import { RootState } from "@/store";
 
 export interface User {
   id: string;
@@ -64,20 +64,6 @@ const authSlice = createSlice({
 });
 
 export const { login, logout, createUser } = authSlice.actions;
+export const selectUser = (state: RootState) => state.user.user;
+
 export default authSlice.reducer;
-
-export const userData = (): { user: User; businesses: Business[] } | null => {
-  const user = JSON.parse(localStorage.getItem("user") || "null");
-  if (!user) return null;
-
-  // Retrieve all businesses from the store
-  const businesses: Business[] = JSON.parse(
-    localStorage.getItem("businesses") || "[]"
-  );
-  const userBusinesses = businesses.filter((b) => b.userId === user.id);
-
-  return {
-    user,
-    businesses: userBusinesses,
-  };
-};

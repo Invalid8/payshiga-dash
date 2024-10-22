@@ -8,14 +8,14 @@ import {
 } from "@material-tailwind/react";
 import { login } from "@/store/user";
 import { showNotification } from "@/utils/showNotification";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "@/utils/hooks";
 
 const LoginCard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {

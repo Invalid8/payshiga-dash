@@ -4,17 +4,17 @@ import Header from "@/components/custom/Header";
 import AddBusinessDrawer from "@/components/custom/business/add-business";
 import { useEffect, useState } from "react";
 import LoginCard from "@/components/custom/auth/login";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store";
+
 import { getBusinesses } from "@/store/business";
 import { showNotification } from "@/utils/showNotification";
 import useLocalStorage from "use-local-storage";
 import { cn } from "@/utils/common";
 import Joyride, { Step } from "react-joyride";
+import { useAppDispatch, useAppSelector } from "@/utils/hooks";
 
 const DashboardLayout = () => {
   const [loginOpen, setLoginOpen] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [tourIsDone, setTourIsDone] = useLocalStorage<boolean>(
     "completedTour",
     false
@@ -48,10 +48,8 @@ const DashboardLayout = () => {
     false
   );
 
-  const isAuth = useSelector((state: RootState) => state.user.user);
-  const busFormOpen = useSelector(
-    (state: RootState) => state.business.busFormOpen
-  );
+  const isAuth = useAppSelector((state) => state.user.user);
+  const busFormOpen = useAppSelector((state) => state.business.busFormOpen);
 
   useEffect(() => {
     function loadData() {
@@ -114,12 +112,12 @@ const DashboardLayout = () => {
           {!busFormOpen && (
             <Joyride
               steps={steps}
-              continuous={true} // Automatically moves to the next step
+              continuous={true}
               scrollToFirstStep={true}
-              showProgress={true} // Shows step count like "Step 1 of 3"
-              showSkipButton={true} // Option to skip the tour
-              run={!tourIsDone} // Only run the tour if `isTourOpen` is true
-              callback={handleTourCallback} // Handle tour completion
+              showProgress={true}
+              showSkipButton={true}
+              run={!tourIsDone}
+              callback={handleTourCallback}
             />
           )}
         </>

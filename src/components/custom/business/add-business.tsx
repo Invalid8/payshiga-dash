@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store";
+import { useAppDispatch, useAppSelector } from "@/utils/hooks";
+
 import { v4 as uuidv4 } from "uuid";
 import { showNotification } from "@/utils/showNotification";
 import {
@@ -19,15 +19,15 @@ import { Input } from "@nextui-org/input";
 import { Select, SelectItem } from "@nextui-org/select";
 
 const AddBusinessDrawer = () => {
-  const dispatch = useDispatch();
-  const userId = useSelector((state: RootState) => state?.user.user?.id);
+  const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state?.user.user?.id);
   const overlayRef = useRef<HTMLDivElement>(null);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const { busFormOpen, activeBusiness } = useSelector(
-    (state: RootState) => state.business
+  const { busFormOpen, activeBusiness } = useAppSelector(
+    (state) => state.business
   );
 
   const [form, setForm] = useState<Omit<Business, "userId" | "id">>({
@@ -477,7 +477,7 @@ const AddBusinessDrawer = () => {
                 <div className="grid gap-1">
                   <Input
                     classNames={{
-                      inputWrapper: "border-none"
+                      inputWrapper: "border-none",
                     }}
                     labelPlacement="outside"
                     type="text"

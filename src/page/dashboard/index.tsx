@@ -1,11 +1,11 @@
 import Switching from "@/components/reusables/Switching";
-import { RootState } from "@/store";
-import { useSelector } from "react-redux";
+
+import { useAppSelector } from "@/utils/hooks";
 
 const Dashboard = () => {
-  const user = useSelector((state: RootState) => state.user.user);
-  const activeBusiness = useSelector(
-    (state: RootState) => state.business.activeBusiness
+  const user = useAppSelector((state) => state.user.user);
+  const activeBusiness = useAppSelector(
+    (state) => state.business.activeBusiness
   );
 
   const date = new Date();

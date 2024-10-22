@@ -1,14 +1,13 @@
-import { RootState } from "@/store";
 import { User } from "@/store/user";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/utils/hooks";
 import { Outlet, useNavigate } from "react-router-dom";
 import useLocalStorage from "use-local-storage";
 
 const RootLayout = () => {
   const [userL] = useLocalStorage<User | null>("user", null);
 
-  const user = useSelector((state: RootState) => state.user.user);
+  const user = useAppSelector((state) => state.user.user);
   const navigate = useNavigate();
 
   useEffect(() => {

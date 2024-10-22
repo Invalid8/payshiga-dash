@@ -1,10 +1,9 @@
-import { RootState } from "@/store";
 import { Avatar, Typography } from "@material-tailwind/react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/utils/hooks";
 
 const Switching = () => {
-  const { switching, activeBusiness } = useSelector(
-    (state: RootState) => state.business
+  const { switching, activeBusiness } = useAppSelector(
+    (state) => state.business
   );
 
   if (!switching) return null;

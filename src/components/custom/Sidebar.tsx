@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { cn } from "@/utils/common";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store";
+import { useAppDispatch, useAppSelector } from "@/utils/hooks";
+
 import { openBusForm, setActiveBusiness, setSwitching } from "@/store/business";
 import { showNotification } from "@/utils/showNotification";
 import useLocalStorage from "use-local-storage";
@@ -11,11 +11,11 @@ const Sidebar = () => {
   const [isProfilesOpen, setIsProfilesOpen] = useState<boolean>(false);
 
   const [hide, setHide] = useState<boolean>(true);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const isAuth = useSelector((state: RootState) => state.user.user);
-  const { businesses, activeBusiness } = useSelector(
-    (state: RootState) => state.business
+  const isAuth = useAppSelector((state) => state.user.user);
+  const { businesses, activeBusiness } = useAppSelector(
+    (state) => state.business
   );
 
   const [isSidebarOpen, setSidebarOpen] = useLocalStorage<boolean>(
