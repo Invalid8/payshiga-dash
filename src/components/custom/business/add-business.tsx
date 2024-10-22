@@ -27,7 +27,9 @@ const AddBusinessDrawer = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const { busFormOpen } = useSelector((state: RootState) => state.business);
+  const { busFormOpen, activeBusiness } = useSelector(
+    (state: RootState) => state.business
+  );
 
   const [form, setForm] = useState<Omit<Business, "userId" | "id">>({
     type: "",
@@ -87,6 +89,14 @@ const AddBusinessDrawer = () => {
 
     try {
       dispatch(addBusiness(newBusiness));
+      setForm({
+        type: "",
+        name: "",
+        country: "",
+        industry: "",
+        size: "",
+        annualVolume: "",
+      });
       showNotification("success", "top-right", undefined, {
         message: "Business account created successfully",
       });
@@ -139,26 +149,28 @@ const AddBusinessDrawer = () => {
             Add a Business
           </Typography>
         </div>
-        <IconButton
-          color="blue-gray"
-          onClick={closeDrawer}
-          className="rounded-full bg-gray-200 shadow-none text-gray-600"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            className="h-5 w-5"
+        {!!activeBusiness && (
+          <IconButton
+            color="blue-gray"
+            onClick={closeDrawer}
+            className="rounded-full bg-gray-200 shadow-none text-gray-600"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </IconButton>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="h-5 w-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </IconButton>
+        )}
       </div>
       <div className="info grid md:grid-cols-[280px_1fr] grid-cols-1 h-full overflow-auto">
         <div className="space-y-10 px-6 py-4 md:py-8 mx-auto md:block hidden">
