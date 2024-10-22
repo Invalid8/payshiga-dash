@@ -1,0 +1,42 @@
+import { RootState } from "@/store";
+import { User } from "@/store/user";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
+import useLocalStorage from "use-local-storage";
+
+const RootLayout = () => {
+  const [userL] = useLocalStorage<User | null>("user", null);
+
+  const user = useSelector((state: RootState) => state.user.user);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (JSON.stringify(userL) !== JSON.stringify(user)) {
+      navigate(0);
+    }
+  }, [navigate, user, userL]);
+
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === "user") {
+        console.log("LocalStorage data has changed!", event);
+        navigate(0);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, [navigate]);
+
+  return (
+    <>
+      <Outlet />
+    </>
+  );
+};
+
+export default RootLayout;

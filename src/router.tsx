@@ -8,10 +8,11 @@ import Home from "@/page/Home";
 import ErrorPage from "@/page/ErrorPage";
 import DashboardLayout from "@/layout/DashboardLayout";
 import Dashboard from "@/page/dashboard";
+import RootLayout from "./layout/RootLayout";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" errorElement={<ErrorPage />}>
+    <Route path="/" errorElement={<ErrorPage />} element={<RootLayout />}>
       <Route index element={<Home />} />
       <Route path="dashboard" element={<DashboardLayout />}>
         <Route index element={<Dashboard />} />
